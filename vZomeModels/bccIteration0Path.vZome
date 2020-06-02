@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <vzome:vZome xmlns:vzome="http://xml.vzome.com/vZome/4.0.0/" coreVersion="7.0" field="golden">
-  <EditHistory editNumber="137" lastStickyEdit="70">
+  <EditHistory editNumber="177" lastStickyEdit="70">
     <StrutCreation anchor="0 0 0 0 0 0" dir="yellow" index="3" len="1 1"/>
     <BeginBlock/>
     <SelectManifestation point="1 2 1 2 -1 -2"/>
@@ -100,20 +100,6 @@
       <TranslationTool name="tool-0"/>
     </Branch>
     <BeginBlock/>
-    <SelectManifestation endSegment="2 2 0 0 -2 -2" startSegment="1 1 1 1 -1 -1"/>
-    <DeselectAll/>
-    <SelectManifestation endSegment="2 2 0 0 -2 -2" startSegment="1 1 1 1 -1 -1"/>
-    <SelectManifestation endSegment="2 2 2 2 0 0" startSegment="1 1 1 1 -1 -1"/>
-    <SelectManifestation endSegment="2 2 2 2 0 0" startSegment="1 1 1 1 1 1"/>
-    <SelectManifestation endSegment="2 2 0 0 2 2" startSegment="1 1 1 1 1 1"/>
-    <SelectManifestation endSegment="2 2 0 0 2 2" startSegment="1 1 -1 -1 1 1"/>
-    <SelectManifestation endSegment="2 2 -2 -2 0 0" startSegment="1 1 -1 -1 1 1"/>
-    <SelectManifestation endSegment="2 2 -2 -2 0 0" startSegment="1 1 -1 -1 -1 -1"/>
-    <DeselectAll/>
-    <SelectManifestation point="2 2 0 0 -2 -2"/>
-    <SelectManifestation endSegment="2 2 0 0 -2 -2" startSegment="1 1 1 1 -1 -1"/>
-    <SelectManifestation point="1 1 1 1 -1 -1"/>
-    <SelectManifestation endSegment="2 2 2 2 0 0" startSegment="1 1 1 1 -1 -1"/>
     <SelectManifestation point="2 2 2 2 0 0"/>
     <SelectManifestation endSegment="2 2 2 2 0 0" startSegment="1 1 1 1 1 1"/>
     <SelectManifestation point="1 1 1 1 1 1"/>
@@ -125,29 +111,33 @@
     <SelectManifestation point="2 2 -2 -2 0 0"/>
     <SelectManifestation endSegment="2 2 -2 -2 0 0" startSegment="1 1 -1 -1 -1 -1"/>
     <SelectManifestation point="1 1 -1 -1 -1 -1"/>
-    <SelectManifestation endSegment="2 2 0 0 0 0" startSegment="1 1 -1 -1 -1 -1"/>
-    <SelectManifestation point="2 2 0 0 0 0"/>
-    <SelectManifestation endSegment="2 2 0 0 0 0" startSegment="0 0 0 0 0 0"/>
-    <SelectManifestation point="0 0 0 0 0 0"/>
-    <SelectManifestation endSegment="0 0 -2 -2 0 0" startSegment="0 0 0 0 0 0"/>
-    <SelectManifestation point="0 0 -2 -2 0 0"/>
-    <SelectManifestation endSegment="0 0 -2 -2 2 2" startSegment="0 0 -2 -2 0 0"/>
-    <SelectManifestation point="0 0 -2 -2 2 2"/>
-    <SelectManifestation endSegment="0 0 0 0 2 2" startSegment="0 0 -2 -2 2 2"/>
-    <SelectManifestation point="0 0 0 0 2 2"/>
-    <SelectManifestation endSegment="0 0 2 2 2 2" startSegment="0 0 0 0 2 2"/>
-    <SelectManifestation point="0 0 2 2 2 2"/>
-    <SelectManifestation endSegment="0 0 2 2 0 0" startSegment="0 0 2 2 2 2"/>
+    <SelectManifestation endSegment="2 2 0 0 -2 -2" startSegment="1 1 -1 -1 -1 -1"/>
+    <SelectManifestation point="2 2 0 0 -2 -2"/>
+    <SelectManifestation endSegment="2 2 0 0 -2 -2" startSegment="1 1 1 1 -1 -1"/>
+    <SelectManifestation point="1 1 1 1 -1 -1"/>
+    <SelectManifestation endSegment="0 0 2 2 0 0" startSegment="1 1 1 1 -1 -1"/>
     <SelectManifestation point="0 0 2 2 0 0"/>
-    <SelectManifestation endSegment="0 0 2 2 -2 -2" startSegment="0 0 2 2 0 0"/>
-    <SelectManifestation point="0 0 2 2 -2 -2"/>
-    <SelectManifestation endSegment="0 0 0 0 -2 -2" startSegment="0 0 2 2 -2 -2"/>
-    <SelectManifestation point="0 0 0 0 -2 -2"/>
-    <SelectManifestation endSegment="0 0 -2 -2 -2 -2" startSegment="0 0 0 0 -2 -2"/>
+    <SelectManifestation endSegment="0 0 2 2 0 0" startSegment="0 0 2 2 2 2"/>
+    <SelectManifestation point="0 0 2 2 2 2"/>
+    <SelectManifestation endSegment="0 0 2 2 2 2" startSegment="0 0 0 0 2 2"/>
+    <SelectManifestation point="0 0 0 0 2 2"/>
+    <SelectManifestation endSegment="0 0 0 0 2 2" startSegment="0 0 -2 -2 2 2"/>
+    <SelectManifestation point="0 0 -2 -2 2 2"/>
+    <SelectManifestation endSegment="0 0 -2 -2 2 2" startSegment="0 0 -2 -2 0 0"/>
+    <SelectManifestation point="0 0 -2 -2 0 0"/>
+    <SelectManifestation endSegment="0 0 -2 -2 0 0" startSegment="0 0 -2 -2 -2 -2"/>
     <SelectManifestation point="0 0 -2 -2 -2 -2"/>
-    <SelectManifestation endSegment="0 0 -2 -2 -2 -2" startSegment="-1 -1 -1 -1 -1 -1"/>
-    <SelectManifestation endSegment="-2 -2 -2 -2 0 0" startSegment="-1 -1 -1 -1 -1 -1"/>
+    <SelectManifestation endSegment="0 0 -2 -2 -2 -2" startSegment="0 0 0 0 -2 -2"/>
+    <SelectManifestation point="0 0 0 0 -2 -2"/>
+    <SelectManifestation endSegment="0 0 0 0 -2 -2" startSegment="0 0 2 2 -2 -2"/>
+    <SelectManifestation point="0 0 2 2 -2 -2"/>
+    <SelectManifestation endSegment="0 0 2 2 -2 -2" startSegment="-1 -1 1 1 -1 -1"/>
+    <SelectManifestation point="-1 -1 1 1 -1 -1"/>
+    <SelectManifestation endSegment="-2 -2 0 0 -2 -2" startSegment="-1 -1 1 1 -1 -1"/>
+    <SelectManifestation point="-2 -2 0 0 -2 -2"/>
+    <SelectManifestation endSegment="-2 -2 0 0 -2 -2" startSegment="-1 -1 -1 -1 -1 -1"/>
     <SelectManifestation point="-1 -1 -1 -1 -1 -1"/>
+    <SelectManifestation endSegment="-2 -2 -2 -2 0 0" startSegment="-1 -1 -1 -1 -1 -1"/>
     <SelectManifestation point="-2 -2 -2 -2 0 0"/>
     <SelectManifestation endSegment="-2 -2 -2 -2 0 0" startSegment="-1 -1 -1 -1 1 1"/>
     <SelectManifestation point="-1 -1 -1 -1 1 1"/>
@@ -155,14 +145,64 @@
     <SelectManifestation point="-2 -2 0 0 2 2"/>
     <SelectManifestation endSegment="-2 -2 0 0 2 2" startSegment="-1 -1 1 1 1 1"/>
     <SelectManifestation point="-1 -1 1 1 1 1"/>
-    <SelectManifestation endSegment="-2 -2 2 2 0 0" startSegment="-1 -1 1 1 1 1"/>
+    <SelectManifestation endSegment="-2 -2 0 0 0 0" startSegment="-1 -1 1 1 1 1"/>
+    <SelectManifestation point="-2 -2 0 0 0 0"/>
+    <SelectManifestation endSegment="-2 -2 2 2 0 0" startSegment="-2 -2 0 0 0 0"/>
     <SelectManifestation point="-2 -2 2 2 0 0"/>
-    <SelectManifestation endSegment="-2 -2 2 2 0 0" startSegment="-1 -1 1 1 -1 -1"/>
+    <DeselectAll/>
+    <SelectManifestation point="2 2 2 2 0 0"/>
+    <SelectManifestation endSegment="2 2 2 2 0 0" startSegment="1 1 1 1 1 1"/>
+    <SelectManifestation point="1 1 1 1 1 1"/>
+    <SelectManifestation endSegment="2 2 0 0 2 2" startSegment="1 1 1 1 1 1"/>
+    <SelectManifestation point="2 2 0 0 2 2"/>
+    <SelectManifestation endSegment="2 2 0 0 2 2" startSegment="1 1 -1 -1 1 1"/>
+    <SelectManifestation point="1 1 -1 -1 1 1"/>
+    <SelectManifestation endSegment="2 2 -2 -2 0 0" startSegment="1 1 -1 -1 1 1"/>
+    <SelectManifestation point="2 2 -2 -2 0 0"/>
+    <SelectManifestation endSegment="2 2 -2 -2 0 0" startSegment="1 1 -1 -1 -1 -1"/>
+    <SelectManifestation point="1 1 -1 -1 -1 -1"/>
+    <SelectManifestation endSegment="2 2 0 0 -2 -2" startSegment="1 1 -1 -1 -1 -1"/>
+    <SelectManifestation point="2 2 0 0 -2 -2"/>
+    <SelectManifestation endSegment="2 2 0 0 -2 -2" startSegment="1 1 1 1 -1 -1"/>
+    <SelectManifestation point="1 1 1 1 -1 -1"/>
+    <SelectManifestation endSegment="2 2 0 0 0 0" startSegment="1 1 1 1 -1 -1"/>
+    <SelectManifestation point="2 2 0 0 0 0"/>
+    <SelectManifestation endSegment="2 2 0 0 0 0" startSegment="0 0 0 0 0 0"/>
+    <SelectManifestation point="0 0 0 0 0 0"/>
+    <SelectManifestation endSegment="0 0 2 2 0 0" startSegment="0 0 0 0 0 0"/>
+    <SelectManifestation point="0 0 2 2 0 0"/>
+    <SelectManifestation endSegment="0 0 2 2 0 0" startSegment="0 0 2 2 2 2"/>
+    <SelectManifestation point="0 0 2 2 2 2"/>
+    <SelectManifestation endSegment="0 0 2 2 2 2" startSegment="0 0 0 0 2 2"/>
+    <SelectManifestation point="0 0 0 0 2 2"/>
+    <SelectManifestation endSegment="0 0 0 0 2 2" startSegment="0 0 -2 -2 2 2"/>
+    <SelectManifestation point="0 0 -2 -2 2 2"/>
+    <SelectManifestation endSegment="0 0 -2 -2 2 2" startSegment="0 0 -2 -2 0 0"/>
+    <SelectManifestation point="0 0 -2 -2 0 0"/>
+    <SelectManifestation endSegment="0 0 -2 -2 0 0" startSegment="0 0 -2 -2 -2 -2"/>
+    <SelectManifestation point="0 0 -2 -2 -2 -2"/>
+    <SelectManifestation endSegment="0 0 -2 -2 -2 -2" startSegment="0 0 0 0 -2 -2"/>
+    <SelectManifestation point="0 0 0 0 -2 -2"/>
+    <SelectManifestation endSegment="0 0 0 0 -2 -2" startSegment="0 0 2 2 -2 -2"/>
+    <SelectManifestation point="0 0 2 2 -2 -2"/>
+    <SelectManifestation endSegment="0 0 2 2 -2 -2" startSegment="-1 -1 1 1 -1 -1"/>
     <SelectManifestation point="-1 -1 1 1 -1 -1"/>
     <SelectManifestation endSegment="-2 -2 0 0 -2 -2" startSegment="-1 -1 1 1 -1 -1"/>
     <SelectManifestation point="-2 -2 0 0 -2 -2"/>
-    <SelectManifestation endSegment="-2 -2 0 0 -2 -2" startSegment="-2 -2 0 0 0 0"/>
+    <SelectManifestation endSegment="-2 -2 0 0 -2 -2" startSegment="-1 -1 -1 -1 -1 -1"/>
+    <SelectManifestation point="-1 -1 -1 -1 -1 -1"/>
+    <SelectManifestation endSegment="-2 -2 -2 -2 0 0" startSegment="-1 -1 -1 -1 -1 -1"/>
+    <SelectManifestation point="-2 -2 -2 -2 0 0"/>
+    <SelectManifestation endSegment="-2 -2 -2 -2 0 0" startSegment="-1 -1 -1 -1 1 1"/>
+    <SelectManifestation point="-1 -1 -1 -1 1 1"/>
+    <SelectManifestation endSegment="-2 -2 0 0 2 2" startSegment="-1 -1 -1 -1 1 1"/>
+    <SelectManifestation point="-2 -2 0 0 2 2"/>
+    <SelectManifestation endSegment="-2 -2 0 0 2 2" startSegment="-1 -1 1 1 1 1"/>
+    <SelectManifestation point="-1 -1 1 1 1 1"/>
+    <SelectManifestation endSegment="-2 -2 0 0 0 0" startSegment="-1 -1 1 1 1 1"/>
     <SelectManifestation point="-2 -2 0 0 0 0"/>
+    <SelectManifestation endSegment="-2 -2 2 2 0 0" startSegment="-2 -2 0 0 0 0"/>
+    <SelectManifestation point="-2 -2 2 2 0 0"/>
     <InvertSelection/>
     <EndBlock/>
     <Hide/>
@@ -174,10 +214,10 @@
     <directionalLight color="30,30,30" x="0.0" y="0.0" z="-1.0"/>
   </sceneModel>
   <Viewing>
-    <ViewModel distance="72.88475036621094" far="145.76950073242196" near="0.18221187863069585" parallel="false" stereoAngle="0.0" width="32.7981376647949">
+    <ViewModel distance="70.02690124511719" far="140.05380249023446" near="0.1750672557214983" parallel="false" stereoAngle="0.0" width="31.512105560302714">
       <LookAtPoint x="0.0" y="0.0" z="0.0"/>
-      <UpDirection x="-0.9848020793496551" y="0.05341690887110705" z="-0.1652619083613901"/>
-      <LookDirection x="0.16452934562319954" y="0.5917145439581715" z="-0.7891793160601424"/>
+      <UpDirection x="-0.9701413823246663" y="-0.22400750051161028" z="0.09298568715521323"/>
+      <LookDirection x="0.24227787510357074" y="-0.8772210826734262" z="0.41446906199199035"/>
     </ViewModel>
   </Viewing>
   <SymmetrySystem name="icosahedral" renderingStyle="solid connectors">

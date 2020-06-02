@@ -91,3 +91,5 @@ baseLattice//Length
 Complement[baseLattice, points3]//Length
 (* 0. no gap *)
 
+
+(* mogrify -crop 1164x1164+493+0 *.png *)
