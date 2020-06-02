@@ -1,5 +1,7 @@
 #!/usr/bin/env wolframscript
 
+skipBaseRegionGeneration = True;
+
 normalizedInnerProd[u_, v_] := u.v/Norm[u]/Norm[v];
 getLattice[vectors_, limit_] := Flatten[
     Table[
@@ -16,7 +18,7 @@ baseVectors = {
     {1, -1, 1}
 };
 
-limit = 6;
+limit = 10;
 
 baseLattice = getLattice[baseVectors, limit];
 
@@ -28,34 +30,34 @@ newLattice = getLattice[newVectors, limit];
 SortBy[newLattice, N[Norm[#]]&][[Range[20]]]
 (* 000, 333, 600, 660 *)
 
-baseRegion = {};
-ambiguousRegion = {};
+If[skipBaseRegionGeneration,
+    baseRegion = {{-2, 0, -2}, {0, -2, -2}, {0, 0, -2}, {0, 2, -2}, {2, 0, -2}, {-1, -1, -1}, {-1, 1, -1}, {1, -1, -1}, {1, 1, -1}, {-2, -2, 0}, {-2, 0, 0}, {-2, 2, 0}, {0, -2, 0}, {0, 0, 0}, {0, 2, 0}, {2, -2, 0}, {2, 0, 0}, {2, 2, 0}, {-1, -1, 1}, {-1, 1, 1}, {1, -1, 1}, {1, 1, 1}, {-2, 0, 2}, {0, -2, 2}, {0, 0, 2}, {0, 2, 2}, {2, 0, 2}},
+    (* 000, 111, 220, 200, all perms and sign changes. 27 in total *)
 
-For[i=1, i<=Length[baseLattice], i++,
-    baseLatticePoint = baseLattice[[i]];
-    minDistance = Min[Map[Norm[baseLatticePoint - #]&, newLattice]];
-    originDistance = Norm[baseLatticePoint - origin];
-    If[originDistance == minDistance,
-        closestCenters = Select[newLattice, Norm[# - baseLatticePoint] == minDistance&];
-        If[Length[closestCenters] == 1,
-            AppendTo[baseRegion, baseLatticePoint],
-            AppendTo[ambiguousRegion, baseLatticePoint]
+    baseRegion = {};
+    ambiguousRegion = {};
+
+    For[i=1, i<=Length[baseLattice], i++,
+        baseLatticePoint = baseLattice[[i]];
+        minDistance = Min[Map[Norm[baseLatticePoint - #]&, newLattice]];
+        originDistance = Norm[baseLatticePoint - origin];
+        If[originDistance == minDistance,
+            closestCenters = Select[newLattice, Norm[# - baseLatticePoint] == minDistance&];
+            If[Length[closestCenters] == 1,
+                AppendTo[baseRegion, baseLatticePoint],
+                AppendTo[ambiguousRegion, baseLatticePoint]
+            ];
         ];
     ];
+
+    Print[Length[baseRegion]];
+    (* 27 *)
+    Print[Length[ambiguousRegion]];
+    (* 0 *)
+
+    Print[baseRegion];
+    Print[ambiguousRegion];
 ];
-
-Print[Length[baseRegion]];
-(* 27 *)
-Print[Length[ambiguousRegion]];
-(* 0 *)
-
-Print[baseRegion];
-Print[ambiguousRegion];
-
-baseRegion = {{-2, 0, -2}, {0, -2, -2}, {0, 0, -2}, {0, 2, -2}, {2, 0, -2}, {-1, -1, -1}, {-1, 1, -1}, {1, -1, -1}, {1, 1, -1}, {-2,
- -2, 0}, {-2, 0, 0}, {-2, 2, 0}, {0, -2, 0}, {0, 0, 0}, {0, 2, 0}, {2, -2, 0}, {2, 0, 0}, {2, 2, 0}, {-1, -1, 1}, {-1,
- 1, 1}, {1, -1, 1}, {1, 1, 1}, {-2, 0, 2}, {0, -2, 2}, {0, 0, 2}, {0, 2, 2}, {2, 0, 2}};
-(* 000, 111, 220, 200, all perms and sign changes. 27 in total *)
 
 points1 = baseRegion;
 
@@ -88,7 +90,7 @@ Print[Length[Union[points4]]];
 
 baseLattice//Length
 (* 2197 *)
-Complement[baseLattice, points3]//Length
+Complement[baseLattice, points4]//Length
 (* 0. no gap *)
 
 
