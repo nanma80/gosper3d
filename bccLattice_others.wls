@@ -14,12 +14,11 @@ axis = {1, 1, 1};
 
 baseVectors = {
     {1, 1, 1},
-    {1, 1, -1},
-    {1, -1, 1}
+    {-1, -1, 1},
+    {1, -1, -1}
 };
 
-
-limit = 4;
+limit = 5;
 
 baseLattice = getLattice[baseVectors, limit];
 
@@ -30,12 +29,11 @@ randomDirection = {Pi, E, 1};
 
 centerBaseCandidates = {};
 
-targetInnerProd = normalizedInnerProd[baseVectors[[1]], baseVectors[[2]]];
+targetInnerProd = -1/3;
 
 For[i = 1, i <= Length[allCandidates], i++,
-    i=367;
     seed1 = allCandidates[[i]];
-    If[0 <= seed1[[1]],
+    If[0 <= seed1[[1]] <= seed1[[2]] <= seed1[[3]],
         seed2Candidates = Select[allCandidates,
             N[Abs[normalizedInnerProd[seed1, #] - targetInnerProd]] < epsilon
             (* && Dot[seed1, randomDirection] < Dot[#, randomDirection] *)
