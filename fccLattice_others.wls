@@ -17,7 +17,7 @@ baseVectors = {
     {1, 1, 0}
 };
 
-limit = 5;
+limit = 8;
 
 baseLattice = getLattice[baseVectors, limit];
 

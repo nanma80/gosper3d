@@ -89,6 +89,9 @@ For[iBase = 1, iBase<=Length[centerBaseCandidates], iBase++,
     ];
 ];
 
-
+(* 
+{{3, 3, 3}, {-5, 1, 1}, {1, 1, -5}}
+also 27, 0. What is this?
+ *)
 
 (* mogrify -crop 1164x1164+493+0 *.png *)
