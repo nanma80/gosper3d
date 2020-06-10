@@ -1,6 +1,6 @@
 #!/usr/bin/env wolframscript
 
-skipBaseRegionGeneration = True;
+skipBaseRegionGeneration = False;
 
 normalizedInnerProd[u_, v_] := u.v/Norm[u]/Norm[v];
 getLattice[vectors_, limit_] := Flatten[
@@ -18,13 +18,18 @@ baseVectors = {
     {1, -1, 1}
 };
 
-limit = 10;
+limit = 4;
 
 baseLattice = getLattice[baseVectors, limit];
 
 SortBy[baseLattice, N[Norm[#]]&][[Range[20]]]
 
-newVectors = 3 * baseVectors;
+(* newVectors = 3 * baseVectors; *)
+
+(* the following centers has the same fundamental region. 
+But a different way to stack the copies *)
+newVectors = {{3, 3, 3}, {-5, 1, 1}, {1, 1, -5}}; 
+
 newLattice = getLattice[newVectors, limit];
 
 SortBy[newLattice, N[Norm[#]]&][[Range[20]]]
