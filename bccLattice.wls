@@ -1,6 +1,7 @@
 #!/usr/bin/env wolframscript
 
-skipBaseRegionGeneration = False;
+skipBaseRegionGeneration = True;
+altMode = True;
 
 normalizedInnerProd[u_, v_] := u.v/Norm[u]/Norm[v];
 getLattice[vectors_, limit_] := Flatten[
@@ -18,22 +19,28 @@ baseVectors = {
     {1, -1, 1}
 };
 
-limit = 4;
+limit = 5;
 
 baseLattice = getLattice[baseVectors, limit];
 
 SortBy[baseLattice, N[Norm[#]]&][[Range[20]]]
 
-(* newVectors = 3 * baseVectors; *)
-
-(* the following centers has the same fundamental region. 
-But a different way to stack the copies *)
-newVectors = {{3, 3, 3}, {-5, 1, 1}, {1, 1, -5}}; 
+newVectors = If[altMode, 
+    {{-5, 1, 1}, {1, -5, 1}, {1, 1, -5}},
+    3 * baseVectors
+];
 
 newLattice = getLattice[newVectors, limit];
 
-SortBy[newLattice, N[Norm[#]]&][[Range[20]]]
+closeCenters = SortBy[newLattice, N[Norm[#]]&][[Range[27]]];
 (* 000, 333, 600, 660 *)
+(* 
+alt:
+{{0, 0, 0}, {-5, 1, 1}, {-3, -3, -3}, {-1, -1, 5}, {-1, 5, -1}, {1, -5, 1}, {1, 1, -5}, {3, 3, 3}, {5, -1, -1}, {-4,
+ -4, 2}, {-4, 2, -4}, {-2, 4, 4}, {2, -4, -4}, {4, -2, 4}, {4, 4, -2}, {-8, -2, -2}, {-6, 0, 6}, {-6, 6, 0}, {-2, -8,
+ -2}, {-2, -2, -8}, {0, -6, 6}, {0, 6, -6}, {2, 2, 8}, {2, 8, 2}, {6, -6, 0}, {6, 0, -6}, {8, 2, 2}}
+
+ *)
 
 If[skipBaseRegionGeneration,
     baseRegion = {{-2, 0, -2}, {0, -2, -2}, {0, 0, -2}, {0, 2, -2}, {2, 0, -2}, {-1, -1, -1}, {-1, 1, -1}, {1, -1, -1}, {1, 1, -1}, {-2, -2, 0}, {-2, 0, 0}, {-2, 2, 0}, {0, -2, 0}, {0, 0, 0}, {0, 2, 0}, {2, -2, 0}, {2, 0, 0}, {2, 2, 0}, {-1, -1, 1}, {-1, 1, 1}, {1, -1, 1}, {1, 1, 1}, {-2, 0, 2}, {0, -2, 2}, {0, 0, 2}, {0, 2, 2}, {2, 0, 2}},
@@ -66,7 +73,10 @@ If[skipBaseRegionGeneration,
 
 points1 = baseRegion;
 
-centers2 = baseRegion * 3;
+centers2 = If[altMode,
+    closeCenters,
+    baseRegion * 3
+];
 
 points2 = {};
 For[centerIndex = 1, centerIndex <= Length[centers2], centerIndex++,

@@ -18,7 +18,7 @@ baseVectors = {
     {1, -1, -1}
 };
 
-limit = 5;
+limit = 3;
 
 baseLattice = getLattice[baseVectors, limit];
 
@@ -33,7 +33,7 @@ targetInnerProd = -1/3;
 
 For[i = 1, i <= Length[allCandidates], i++,
     seed1 = allCandidates[[i]];
-    If[0 <= seed1[[1]] <= seed1[[2]] <= seed1[[3]],
+    If[seed1[[1]] <= seed1[[2]] <= seed1[[3]],
         seed2Candidates = Select[allCandidates,
             N[Abs[normalizedInnerProd[seed1, #] - targetInnerProd]] < epsilon
             (* && Dot[seed1, randomDirection] < Dot[#, randomDirection] *)
