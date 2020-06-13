@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <vzome:vZome xmlns:vzome="http://xml.vzome.com/vZome/4.0.0/" coreVersion="7.0" field="golden">
-  <EditHistory editNumber="362" lastStickyEdit="149">
+  <EditHistory editNumber="269" lastStickyEdit="125">
     <StrutCreation anchor="0 0 0 0 0 0" dir="yellow" index="3" len="1 1"/>
     <BeginBlock/>
     <SelectManifestation point="1 2 1 2 -1 -2"/>
@@ -100,249 +100,145 @@
       <TranslationTool name="tool-0"/>
     </Branch>
     <BeginBlock/>
-    <SelectManifestation point="0 0 0 0 0 0"/>
+    <SelectAll/>
     <DeselectAll/>
-    <SelectManifestation endSegment="0 0 2 2 -2 -2" startSegment="0 0 2 2 0 0"/>
+    <SelectAll/>
+    <EndBlock/>
+    <BookmarkTool name="tool-1"/>
+    <BeginBlock/>
+    <DeselectAll/>
+    <SelectManifestation endSegment="0 0 -2 -2 -2 -2" startSegment="0 0 0 0 -2 -2"/>
     <DeselectAll/>
     <EndBlock/>
-    <StrutCreation anchor="-1 -1 1 1 1 1" index="2" len="2 2"/>
-    <StrutCreation anchor="-1 -1 1 1 3 3" index="2" len="2 2"/>
-    <BeginBlock/>
-    <SelectManifestation endSegment="-1 -1 1 1 3 3" startSegment="-1 -1 1 1 1 1"/>
-    <DeselectAll/>
-    <SelectManifestation point="-1 -1 1 1 3 3"/>
-    <SelectManifestation endSegment="-1 -1 1 1 3 3" startSegment="-1 -1 1 1 1 1"/>
-    <SelectManifestation endSegment="-1 -1 1 1 5 5" startSegment="-1 -1 1 1 3 3"/>
-    <EndBlock/>
-    <Delete/>
-    <StrutCreation anchor="1 1 1 1 -1 -1" index="0" len="2 2"/>
-    <StrutCreation anchor="3 3 1 1 -1 -1" index="0" len="2 2"/>
-    <BeginBlock/>
-    <SelectManifestation point="3 3 1 1 -1 -1"/>
-    <SelectManifestation endSegment="3 3 1 1 -1 -1" startSegment="1 1 1 1 -1 -1"/>
-    <SelectManifestation endSegment="5 5 1 1 -1 -1" startSegment="3 3 1 1 -1 -1"/>
-    <EndBlock/>
-    <Delete/>
-    <StrutCreation anchor="-1 -1 -1 -1 -1 -1" index="16" len="2 2"/>
-    <StrutCreation anchor="-1 -1 -3 -3 -1 -1" index="16" len="2 2"/>
-    <BeginBlock/>
-    <SelectManifestation point="-1 -1 -3 -3 -1 -1"/>
-    <SelectManifestation endSegment="-1 -1 -3 -3 -1 -1" startSegment="-1 -1 -1 -1 -1 -1"/>
-    <SelectManifestation endSegment="-1 -1 -5 -5 -1 -1" startSegment="-1 -1 -3 -3 -1 -1"/>
-    <EndBlock/>
-    <Delete/>
+    <StrutCreation anchor="-1 -1 1 1 -1 -1" index="1" len="2 2"/>
+    <StrutCreation anchor="-1 -1 3 3 -1 -1" index="1" len="2 2"/>
+    <StrutCreation anchor="1 1 -1 -1 -1 -1" index="0" len="2 2"/>
+    <StrutCreation anchor="3 3 -1 -1 -1 -1" index="0" len="2 2"/>
+    <StrutCreation anchor="-1 -1 -1 -1 1 1" index="2" len="2 2"/>
+    <StrutCreation anchor="-1 -1 -1 -1 3 3" index="2" len="2 2"/>
     <BeginBlock/>
     <SelectManifestation point="0 0 0 0 0 0"/>
-    <SelectManifestation point="-1 -1 1 1 5 5"/>
+    <SelectManifestation point="-1 -1 5 5 -1 -1"/>
     <DeselectAll/>
-    <SelectManifestation point="0 0 0 0 0 0"/>
-    <SelectManifestation point="-1 -1 -5 -5 -1 -1"/>
-    <EndBlock/>
-    <TranslationTool name="tool-1"/>
-    <BeginBlock/>
-    <DeselectAll/>
-    <SelectManifestation point="-1 -1 -5 -5 -1 -1"/>
+    <SelectManifestation point="-1 -1 5 5 -1 -1"/>
     <SelectManifestation point="0 0 0 0 0 0"/>
     <EndBlock/>
     <TranslationTool name="tool-2"/>
     <BeginBlock/>
     <DeselectAll/>
     <SelectManifestation point="0 0 0 0 0 0"/>
-    <SelectManifestation point="-1 -1 1 1 5 5"/>
+    <SelectManifestation point="-1 -1 5 5 -1 -1"/>
     <EndBlock/>
     <TranslationTool name="tool-3"/>
     <BeginBlock/>
     <DeselectAll/>
-    <SelectManifestation point="-1 -1 1 1 5 5"/>
+    <SelectManifestation point="-1 -1 -1 -1 5 5"/>
     <SelectManifestation point="0 0 0 0 0 0"/>
     <EndBlock/>
     <TranslationTool name="tool-4"/>
     <BeginBlock/>
     <DeselectAll/>
     <SelectManifestation point="0 0 0 0 0 0"/>
-    <SelectManifestation point="5 5 1 1 -1 -1"/>
+    <SelectManifestation point="-1 -1 -1 -1 5 5"/>
     <EndBlock/>
     <TranslationTool name="tool-5"/>
     <BeginBlock/>
     <DeselectAll/>
-    <SelectManifestation point="5 5 1 1 -1 -1"/>
+    <SelectManifestation point="5 5 -1 -1 -1 -1"/>
     <SelectManifestation point="0 0 0 0 0 0"/>
     <EndBlock/>
     <TranslationTool name="tool-6"/>
     <BeginBlock/>
     <DeselectAll/>
-    <SelectManifestation point="-1 -1 1 1 5 5"/>
-    <SelectManifestation point="5 5 1 1 -1 -1"/>
-    <SelectManifestation point="-1 -1 -5 -5 -1 -1"/>
+    <SelectManifestation point="0 0 0 0 0 0"/>
+    <SelectManifestation point="5 5 -1 -1 -1 -1"/>
     <EndBlock/>
-    <Hide/>
-    <SelectAll/>
-    <BookmarkTool name="tool-7"/>
+    <TranslationTool name="tool-7"/>
+    <BeginBlock/>
     <DeselectAll/>
-    <ApplyTool name="tool-7" selectInputs="true"/>
-    <ApplyTool name="tool-1"/>
-    <DeselectAll/>
-    <ApplyTool name="tool-7" selectInputs="true"/>
-    <setItemColor blue="102" green="0" red="255"/>
-    <ApplyTool name="tool-7" selectInputs="true"/>
+    <SelectManifestation point="5 5 -1 -1 -1 -1"/>
+    <SelectManifestation point="-1 -1 5 5 -1 -1"/>
+    <SelectManifestation point="-1 -1 -1 -1 5 5"/>
+    <SelectNeighbors/>
+    <SelectNeighbors/>
+    <SelectNeighbors/>
+    <EndBlock/>
+    <Delete/>
+    <ApplyTool name="tool-1" selectInputs="true"/>
     <ApplyTool name="tool-2"/>
+    <ApplyTool name="tool-3"/>
+    <ApplyTool name="tool-3"/>
+    <BeginBlock/>
     <DeselectAll/>
-    <ApplyTool name="tool-7" selectInputs="true"/>
+    <SelectAll/>
+    <EndBlock/>
+    <ApplyTool name="tool-4"/>
+    <ApplyTool name="tool-5"/>
+    <ApplyTool name="tool-5"/>
+    <BeginBlock/>
+    <DeselectAll/>
+    <SelectAll/>
+    <EndBlock/>
+    <ApplyTool name="tool-6"/>
+    <ApplyTool name="tool-7"/>
+    <ApplyTool name="tool-7"/>
+    <BeginBlock/>
+    <DeselectAll/>
+    <SelectAll/>
+    <EndBlock/>
+    <ApplyTool name="tool-6"/>
+    <ApplyTool name="tool-7"/>
+    <ApplyTool name="tool-7"/>
+    <DeselectAll/>
+    <ApplyTool name="bookmark.builtin/ball at origin" selectInputs="true"/>
+    <SelectManifestation point="-1 -1 -5 -5 -3 -3"/>
+    <SelectByRadius/>
+    <BeginBlock/>
+    <SelectNeighbors/>
+    <SelectNeighbors/>
+    <SelectNeighbors/>
+    <SelectNeighbors/>
+    <SelectNeighbors/>
+    <SelectNeighbors/>
+    <SelectNeighbors/>
+    <SelectNeighbors/>
+    <DeselectAll/>
+    <SelectAll/>
+    <EndBlock/>
+    <ApplyTool name="tool-4"/>
+    <ApplyTool name="tool-5"/>
+    <ApplyTool name="tool-5"/>
+    <BeginBlock/>
+    <DeselectAll/>
+    <SelectAll/>
+    <EndBlock/>
+    <ApplyTool name="tool-2"/>
+    <ApplyTool name="tool-3"/>
     <ApplyTool name="tool-3"/>
     <DeselectAll/>
-    <ApplyTool name="tool-7" selectInputs="true"/>
-    <ApplyTool name="tool-4"/>
-    <DeselectAll/>
-    <ApplyTool name="tool-7" selectInputs="true"/>
-    <ApplyTool name="tool-5"/>
-    <DeselectAll/>
-    <ApplyTool name="tool-7" selectInputs="true"/>
-    <ApplyTool name="tool-6"/>
-    <BeginBlock/>
-    <DeselectAll/>
-    <SelectManifestation point="1 1 5 5 1 1"/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <EndBlock/>
-    <ApplyTool name="tool-4"/>
-    <BeginBlock/>
-    <DeselectAll/>
-    <SelectManifestation point="1 1 5 5 1 1"/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <EndBlock/>
-    <ApplyTool name="tool-6"/>
-    <BeginBlock/>
-    <DeselectAll/>
-    <SelectAll/>
-    <EndBlock/>
-    <ApplyTool name="tool-2"/>
-    <BeginBlock/>
-    <DeselectAll/>
-    <SelectAll/>
-    <EndBlock/>
-    <ApplyTool name="tool-5"/>
-    <BeginBlock/>
-    <DeselectAll/>
-    <SelectAll/>
-    <EndBlock/>
-    <ApplyTool name="tool-6"/>
-    <DeselectAll/>
     <ApplyTool name="bookmark.builtin/ball at origin" selectInputs="true"/>
-    <SelectManifestation point="-6 -6 0 0 0 0"/>
+    <SelectManifestation point="-2 -2 6 6 8 8"/>
     <SelectByRadius/>
     <BeginBlock/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <InvertSelection/>
-    <EndBlock/>
-    <Delete/>
-    <SelectAll/>
-    <ApplyTool name="tool-1"/>
-    <ApplyTool name="tool-2"/>
-    <ApplyTool name="tool-2"/>
-    <DeselectAll/>
-    <ApplyTool name="bookmark.builtin/ball at origin" selectInputs="true"/>
-    <SelectManifestation point="-4 -4 2 2 0 0"/>
-    <SelectByRadius/>
-    <BeginBlock/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <DeselectAll/>
-    <SelectAll/>
-    <EndBlock/>
-    <ApplyTool name="tool-6"/>
-    <ApplyTool name="tool-5"/>
-    <ApplyTool name="tool-5"/>
-    <BeginBlock/>
-    <DeselectAll/>
-    <SelectAll/>
-    <EndBlock/>
-    <ApplyTool name="tool-3"/>
-    <ApplyTool name="tool-4"/>
-    <ApplyTool name="tool-4"/>
-    <DeselectAll/>
-    <ApplyTool name="tool-7" selectInputs="true"/>
-    <DeselectAll/>
-    <ApplyTool name="bookmark.builtin/ball at origin" selectInputs="true"/>
-    <SelectManifestation point="-3 -3 1 1 -5 -5"/>
-    <SelectByRadius/>
-    <BeginBlock/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectManifestation point="-4 -4 2 2 -8 -8"/>
-    <SelectNeighbors/>
-    <SelectManifestation point="-4 -4 2 2 -8 -8"/>
-    <DeselectAll/>
-    <EndBlock/>
-    <ApplyTool name="bookmark.builtin/ball at origin" selectInputs="true"/>
-    <SelectManifestation point="-4 -4 2 2 -8 -8"/>
-    <SelectByRadius/>
-    <BeginBlock/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <InvertSelection/>
-    <EndBlock/>
-    <Delete/>
-    <BeginBlock/>
-    <SelectManifestation point="0 0 -2 -2 2 2"/>
-    <SelectManifestation point="-8 -8 -4 -4 6 6"/>
-    <EndBlock/>
-    <SelectByRadius/>
-    <DeselectAll/>
-    <ApplyTool name="bookmark.builtin/ball at origin" selectInputs="true"/>
-    <SelectManifestation point="-5 -5 -5 -5 3 3"/>
-    <SelectByRadius/>
-    <BeginBlock/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <InvertSelection/>
-    <SelectNeighbors/>
     <SelectNeighbors/>
     <SelectNeighbors/>
     <DeselectAll/>
     <EndBlock/>
     <ApplyTool name="bookmark.builtin/ball at origin" selectInputs="true"/>
-    <SelectManifestation point="-1 -1 -3 -3 -1 -1"/>
-    <SelectByRadius/>
     <BeginBlock/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
-    <SelectNeighbors/>
+    <SelectManifestation endSegment="7 7 5 5 5 5" startSegment="6 6 6 6 6 6"/>
     <DeselectAll/>
     <EndBlock/>
     <ApplyTool name="bookmark.builtin/ball at origin" selectInputs="true"/>
-    <SelectManifestation point="4 4 -6 -6 0 0"/>
+    <SelectManifestation point="3 3 3 3 5 5"/>
+    <SelectByRadius/>
+    <DeselectAll/>
+    <ApplyTool name="bookmark.builtin/ball at origin" selectInputs="true"/>
+    <SelectManifestation point="5 5 5 5 7 7"/>
+    <SelectByRadius/>
+    <DeselectAll/>
+    <ApplyTool name="bookmark.builtin/ball at origin" selectInputs="true"/>
+    <SelectManifestation point="4 4 4 4 6 6"/>
     <SelectByRadius/>
     <BeginBlock/>
     <SelectNeighbors/>
@@ -357,11 +253,22 @@
     <EndBlock/>
     <Delete/>
     <ApplyTool name="bookmark.builtin/ball at origin" selectInputs="true"/>
-    <SelectManifestation point="-10 -10 2 2 -2 -2"/>
-    <SelectByRadius/>
+    <BeginBlock/>
+    <SelectManifestation point="-7 -7 -5 -5 9 9"/>
     <DeselectAll/>
+    <EndBlock/>
     <ApplyTool name="bookmark.builtin/ball at origin" selectInputs="true"/>
-    <SelectManifestation point="-10 -10 4 4 -2 -2"/>
+    <SelectManifestation point="-6 -6 -4 -4 8 8"/>
+    <SelectByRadius/>
+    <BeginBlock/>
+    <InvertSelection/>
+    <SelectNeighbors/>
+    <SelectNeighbors/>
+    <SelectNeighbors/>
+    <DeselectAll/>
+    <EndBlock/>
+    <ApplyTool name="bookmark.builtin/ball at origin" selectInputs="true"/>
+    <SelectManifestation point="-7 -7 -5 -5 9 9"/>
     <SelectByRadius/>
     <BeginBlock/>
     <InvertSelection/>
@@ -372,14 +279,14 @@
     <SelectNeighbors/>
     <SelectNeighbors/>
     <SelectNeighbors/>
-    <DeselectAll/>
     <EndBlock/>
+    <Delete/>
     <ApplyTool name="bookmark.builtin/ball at origin" selectInputs="true"/>
-    <SelectManifestation point="9 9 -1 -1 9 9"/>
+    <SelectManifestation point="-3 -3 5 5 11 11"/>
     <SelectByRadius/>
     <DeselectAll/>
     <ApplyTool name="bookmark.builtin/ball at origin" selectInputs="true"/>
-    <SelectManifestation point="8 8 -2 -2 8 8"/>
+    <SelectManifestation point="-3 -3 3 3 11 11"/>
     <SelectByRadius/>
     <BeginBlock/>
     <InvertSelection/>
@@ -399,10 +306,10 @@
     <directionalLight color="30,30,30" x="0.0" y="0.0" z="-1.0"/>
   </sceneModel>
   <Viewing>
-    <ViewModel distance="237.19424438476562" far="474.3884887695332" near="0.5929856197980891" parallel="false" stereoAngle="0.0" width="106.7374099731446">
+    <ViewModel distance="227.89373779296875" far="455.78747558594006" near="0.5697343529721266" parallel="false" stereoAngle="0.0" width="102.55218200683606">
       <LookAtPoint x="0.0" y="0.0" z="0.0"/>
-      <UpDirection x="0.17580830682767573" y="0.5737267421768664" z="0.7999556641224174"/>
-      <LookDirection x="0.7725694938372795" y="-0.5840343570011207" z="0.24907879683799947"/>
+      <UpDirection x="0.4996694547213578" y="0.19307161703445466" z="0.8444251220292947"/>
+      <LookDirection x="0.5037693107646489" y="0.7282574086310775" z="-0.46460480874140225"/>
     </ViewModel>
   </Viewing>
   <SymmetrySystem name="icosahedral" renderingStyle="solid connectors">
@@ -429,12 +336,12 @@
   </SymmetrySystem>
   <Tools>
     <Tool id="tool-0" label="translation diagonally"/>
-    <Tool id="tool-1" label="-x"/>
+    <Tool id="tool-1" label="bookmark 1" selectInputs="true"/>
     <Tool id="tool-2" label="+x"/>
-    <Tool id="tool-3" label="-y"/>
+    <Tool id="tool-3" label="-x"/>
     <Tool id="tool-4" label="+y"/>
-    <Tool id="tool-5" label="-z"/>
+    <Tool id="tool-5" label="-y"/>
     <Tool id="tool-6" label="+z"/>
-    <Tool id="tool-7" label="bookmark 7" selectInputs="true"/>
+    <Tool id="tool-7" label="-z"/>
   </Tools>
 </vzome:vZome>
