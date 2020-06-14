@@ -10,6 +10,24 @@ getLattice[vectors_, limit_] := Flatten[
     ], 2];
 offset[vectors_, offset_] := Map[ (# + offset) &, vectors];
 
+getsrd[r_] := Module[
+    {s, pyramidpx, pyramidnx, pyramidpy, pyramidny, pyramidpz, pyramidnz},
+    s = Norm[{0, -r, r}- {r, 0, 0}];
+    pyramidpx = Pyramid[{{0, r, r}, {0, r, -r}, {0, -r, -r}, {0, -r, r}, {r, 0, 0}}];
+    pyramidnx = Pyramid[{{0, r, r}, {0, r, -r}, {0, -r, -r}, {0, -r, r}, {-r, 0, 0}}];
+
+    pyramidpy = Pyramid[{{r, 0, r}, {r, 0, -r}, {-r, 0, -r}, {-r, 0, r}, {0, r, 0}}];
+    pyramidny = Pyramid[{{r, 0, r}, {r, 0, -r}, {-r, 0, -r}, {-r, 0, r}, {0, -r, 0}}];
+
+    pyramidpz = Pyramid[{{r, r, 0}, {r, -r, 0}, {-r, -r, 0}, {-r, r, 0}, {0, 0, r}}];
+    pyramidnz = Pyramid[{{r, r, 0}, {r, -r, 0}, {-r, -r, 0}, {-r, r, 0}, {0, 0, -r}}];
+
+    srd = RegionUnion[pyramidpx, pyramidnx, pyramidpy, pyramidny, pyramidpz, pyramidnz];
+    srd
+];
+
+translatedRegion[region_, offset_] := TransformedRegion[region, (# + offset)&];
+
 origin = {0, 0, 0};
 axis = {1, 1, 1};
 
@@ -23,23 +41,6 @@ limit = 6;
 
 baseLattice = getLattice[baseVectors, limit];
 
-r = 3;
-s = Norm[{0, -r, r}- {r, 0, 0}];
-pyramidpx = Pyramid[{{0, r, r}, {0, r, -r}, {0, -r, -r}, {0, -r, r}, {r, 0, 0}}];
-pyramidnx = Pyramid[{{0, r, r}, {0, r, -r}, {0, -r, -r}, {0, -r, r}, {-r, 0, 0}}];
-
-pyramidpy = Pyramid[{{r, 0, r}, {r, 0, -r}, {-r, 0, -r}, {-r, 0, r}, {0, r, 0}}];
-pyramidny = Pyramid[{{r, 0, r}, {r, 0, -r}, {-r, 0, -r}, {-r, 0, r}, {0, -r, 0}}];
-
-pyramidpz = Pyramid[{{r, r, 0}, {r, -r, 0}, {-r, -r, 0}, {-r, r, 0}, {0, 0, r}}];
-pyramidnz = Pyramid[{{r, r, 0}, {r, -r, 0}, {-r, -r, 0}, {-r, r, 0}, {0, 0, -r}}];
-
-srd = RegionUnion[pyramidpx, pyramidnx, pyramidpy, pyramidny, pyramidpz, pyramidnz];
-srd//Volume
-
-
-
-
 newVectors = If[altMode, 
     {{-5, 1, 1}, {1, -5, 1}, {1, 1, -5}},
     3 * baseVectors
@@ -51,6 +52,25 @@ baseRegion = {{-2, 0, -2}, {0, -2, -2}, {0, 0, -2}, {0, 2, -2}, {2, 0, -2}, {-1,
 
 scalingMatrixA = IdentityMatrix[3] * 3;
 scalingMatrixB = RotationMatrix[Pi/3, {1, 1, 1}] * 3;
+
+srd = getsrd[3];
+
+centersA = baseRegion.scalingMatrixA;
+srds = Map[
+    translatedRegion[srd, #]&,
+    centersA
+];
+
+unionSrds = srds[[1]];
+For[i = 1, i <= Length[srds], i++,
+    Print[ToString[i] <> " " <> ToString[Volume[RegionIntersection[srd, srds[[i]]]]]];
+    unionSrds = RegionUnion[unionSrds, srds[[i]]];
+];
+
+cubeRegion = Cube[6];
+Volume[unionSrds]/Volume[srd]
+Volume[RegionDifference[cubeRegion, unionSrds]]
+
 
 (* 
 alt:
