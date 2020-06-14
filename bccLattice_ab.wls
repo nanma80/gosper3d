@@ -1,7 +1,7 @@
 #!/usr/bin/env wolframscript
 
 skipBaseRegionGeneration = True;
-altMode = False;
+altMode = True;
 
 normalizedInnerProd[u_, v_] := u.v/Norm[u]/Norm[v];
 getLattice[vectors_, limit_] := Flatten[
@@ -32,13 +32,11 @@ newVectors = If[altMode,
 
 newLattice = getLattice[newVectors, limit];
 
-
 baseRegion = {{-2, 0, -2}, {0, -2, -2}, {0, 0, -2}, {0, 2, -2}, {2, 0, -2}, {-1, -1, -1}, {-1, 1, -1}, {1, -1, -1}, {1, 1, -1}, {-2, -2, 0}, {-2, 0, 0}, {-2, 2, 0}, {0, -2, 0}, {0, 0, 0}, {0, 2, 0}, {2, -2, 0}, {2, 0, 0}, {2, 2, 0}, {-1, -1, 1}, {-1, 1, 1}, {1, -1, 1}, {1, 1, 1}, {-2, 0, 2}, {0, -2, 2}, {0, 0, 2}, {0, 2, 2}, {2, 0, 2}};
 
+scalingMatrixA = IdentityMatrix[3] * 3;
+scalingMatrixB = RotationMatrix[Pi/3, {1, 1, 1}] * 3;
 
-centers2a = baseRegion * 3;
-(* 000, 333, 600, 660 *)
-centers2b = SortBy[newLattice, N[Norm[#]]&][[Range[27]]];
 (* 
 alt:
 {{0, 0, 0}, {-5, 1, 1}, {-3, -3, -3}, {-1, -1, 5}, {-1, 5, -1}, {1, -5, 1}, {1, 1, -5}, {3, 3, 3}, {5, -1, -1}, {-4,
@@ -48,28 +46,55 @@ alt:
  *)
 
 
-centerNames = {2, 1, 2};
-centerSequence = {};
-pointsi = baseRegion;
+centerNamesList = {
+    {1, 1, 1}, {1, 1, 2}, {1, 2, 1}, {1, 2, 2},
+    {2, 1, 1}, {2, 1, 2}, {2, 2, 1}, {2, 2, 2}
+};
 
-For[i=1, i<=Length[centerNames], i++,
-    centers =
-        If[centerNames[[i]] == 1,
-            centers2a,
-            centers2b
-        ] * 3^(i-1);
+(* 
+centerNamesList = {
+    {1, 1, 1, 1}, {1, 1, 1, 2}, {1, 1, 2, 1}, {1, 1, 2, 2},
+    {1, 2, 1, 1}, {1, 2, 1, 2}, {1, 2, 2, 1}, {1, 2, 2, 2},
+    {2, 1, 1, 1}, {2, 1, 1, 2}, {2, 1, 2, 1}, {2, 1, 2, 2},
+    {2, 2, 1, 1}, {2, 2, 1, 2}, {2, 2, 2, 1}, {2, 2, 2, 2}
+};
+ *)
 
-    points2 = {};
-    For[centerIndex = 1, centerIndex <= Length[centers], centerIndex++,
-        points2 = Join[points2, offset[pointsi, centers[[centerIndex]]]];
+For[nameIndex = 1, nameIndex <= Length[centerNamesList], nameIndex++,
+    centerNames = centerNamesList[[nameIndex]];
+    Print[];
+    Print[centerNames];
+    centerSequence = {};
+    pointsi = baseRegion;
+    centers = baseRegion;
+
+    For[i=1, i<=Length[centerNames], i++,
+        centers = centers.
+            If[centerNames[[i]] == 1,
+                scalingMatrixA,
+                scalingMatrixB
+            ];
+
+        points2 = {};
+        For[centerIndex = 1, centerIndex <= Length[centers], centerIndex++,
+            points2 = Join[points2, offset[pointsi, centers[[centerIndex]]]];
+        ];
+
+        If[Length[points2] == Length[Union[points2]] && Length[points2] == 27^(i+1),
+            Print["no overlap"],
+    
+            Print["overlapping"];
+            Print[Length[points2]];
+            Print[Length[Union[points2]]];
+            Print[27^(i+1)];
+        ];
+
+        pointsi = points2;
     ];
-    Print[Length[points2]];
-    Print[Length[Union[points2]]];
-    Print[27^(i+1)];
 
-    pointsi = points2;
+    If[Length[Complement[baseLattice, pointsi]] == 0,
+        Print["no gap"],
+        Print["there is gap or the generated points do not cover all baseLattice. The number of missing points are:"];
+        Print[Length[Complement[baseLattice, pointsi]]];
+    ];
 ];
-
-Complement[baseLattice, points2]//Length
-(* 0 means no gap *)
-
