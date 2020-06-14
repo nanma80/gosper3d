@@ -23,28 +23,22 @@ limit = 6;
 
 baseLattice = getLattice[baseVectors, limit];
 
-r = 2;
-pyramidpx = Pyramid[{{0, r, r}, {0, r, -r}, {0, -r, r}, {0, -r, -r}, {r, 0, 0}}];
-pyramidnx = Pyramid[{{0, r, r}, {0, r, -r}, {0, -r, r}, {0, -r, -r}, {-r, 0, 0}}];
+r = 3;
+s = Norm[{0, -r, r}- {r, 0, 0}];
+pyramidpx = Pyramid[{{0, r, r}, {0, r, -r}, {0, -r, -r}, {0, -r, r}, {r, 0, 0}}];
+pyramidnx = Pyramid[{{0, r, r}, {0, r, -r}, {0, -r, -r}, {0, -r, r}, {-r, 0, 0}}];
 
-pyramidpz = Pyramid[{{r, r, 0}, {r, -r, 0}, {-r, r, 0}, {-r, -r, 0}, {0, 0, r}}];
-pyramidnz = Pyramid[{{r, r, 0}, {r, -r, 0}, {-r, r, 0}, {-r, -r, 0}, {0, 0, -r}}];
+pyramidpy = Pyramid[{{r, 0, r}, {r, 0, -r}, {-r, 0, -r}, {-r, 0, r}, {0, r, 0}}];
+pyramidny = Pyramid[{{r, 0, r}, {r, 0, -r}, {-r, 0, -r}, {-r, 0, r}, {0, -r, 0}}];
 
+pyramidpz = Pyramid[{{r, r, 0}, {r, -r, 0}, {-r, -r, 0}, {-r, r, 0}, {0, 0, r}}];
+pyramidnz = Pyramid[{{r, r, 0}, {r, -r, 0}, {-r, -r, 0}, {-r, r, 0}, {0, 0, -r}}];
 
-pyramidpx//Volume
-pyramidnx//Volume
-
-pyramidpz//Volume
-pyramidnz//Volume
-
-pyramidz = RegionUnion[pyramidpz, pyramidnz];
-pyramidz//Volume
-
-(* doesn't evaluate *)
-Volume[RegionUnion[pyramidpx, pyramidpz]]
+srd = RegionUnion[pyramidpx, pyramidnx, pyramidpy, pyramidny, pyramidpz, pyramidnz];
+srd//Volume
 
 
-SortBy[baseLattice, N[Norm[#]]&][[Range[20]]]
+
 
 newVectors = If[altMode, 
     {{-5, 1, 1}, {1, -5, 1}, {1, 1, -5}},
