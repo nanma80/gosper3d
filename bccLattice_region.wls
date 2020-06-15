@@ -3,13 +3,22 @@
 skipBaseRegionGeneration = True;
 altMode = True;
 
+imageFolder = "output";
+imageSize = 150 * {4, 3};
+exportToPov = True;
+
+Needs["POVRayRender`"];
+ConfigurePOVRayRender["POVRayPath" -> "C:\\Program Files\\POV-Ray\\v3.7\\bin\\pvengine64.exe"];
+
+
 normalizedInnerProd[u_, v_] := u.v/Norm[u]/Norm[v];
 getLattice[vectors_, limit_] := Flatten[
     Table[
         {i, j, k}.vectors, {i, -limit, limit}, {j, -limit, limit}, {k, -limit, limit}
     ], 2];
 offset[vectors_, offset_] := Map[ (# + offset) &, vectors];
-
+getEdgesFromFace[face_] := Table[{face[[i+1]], face[[Mod[i+1, Length[face]] + 1]]}, {i, 0, Length[face] - 1}];
+sameCenter[edge1_, edge2_] := Total[edge1] == Total[edge2];
 getsrd[r_] := Module[
     {s, pyramidpx, pyramidnx, pyramidpy, pyramidny, pyramidpz, pyramidnz},
     s = Norm[{0, -r, r}- {r, 0, 0}];
@@ -27,6 +36,52 @@ getsrd[r_] := Module[
 ];
 
 translatedRegion[region_, offset_] := TransformedRegion[region, (# + offset)&];
+
+plotRegion[region_, fileName_, color_] := Module[
+    {},
+
+    polyhedron = region;
+    outputFileName = fileName;
+
+    vertices = polyhedron[[1]];
+    faceIndices = polyhedron[[2]];
+    faces = Map[vertices[[#]]&, faceIndices];
+    edges = Flatten[Map[getEdgesFromFace, faces], 1];
+
+    range = Max[Norm/@vertices] * 0.75;
+    lighting = {{"Point", White, {1, -1, 1} * range}};
+    thickness = range * 0.01;
+
+    graph = Graphics3D[
+            {
+                {
+                    Opacity[1], FaceForm[Lighter[color, 0.1]], Map[Polygon, faces]
+                },
+
+                {
+                    Opacity[1], FaceForm[color], Map[Cylinder[#, thickness]&, edges]
+                },
+             
+                {
+                    Opacity[1], FaceForm[Darker[color]], Map[Sphere[#, thickness * 2]&, vertices]
+                }
+            },
+            ViewPoint -> {3, -4, 2}*3,
+            PlotRange -> {{-range, range}, {-range, range}, {-range, range}},
+            Lighting -> lighting
+        ];
+
+    outputFileName = FileNameJoin[{outputFolder, outputFileName}];
+    cropCommand = "mogrify -crop " <> IntegerString[imageSize[[2]]] <> "x" <> IntegerString[imageSize[[2]]] <> "+" <> IntegerString[(imageSize[[1]]-imageSize[[2]])/2] <> "+0 " <> outputFileName;
+
+    If[exportToPov,
+        If[FileExistsQ[outputFileName], DeleteFile[outputFileName]];
+        POVRayRender[graph, Method -> "Triangle", OutputPath -> outputFileName, ImageSize -> imageSize, RenderOptions -> "+A0.001 -J +UA"];
+        Run[cropCommand];
+        ,
+        Export[outputFileName, graph];
+    ];
+];
 
 origin = {0, 0, 0};
 axis = {1, 1, 1};
@@ -55,6 +110,8 @@ scalingMatrixB = RotationMatrix[Pi/3, {1, 1, 1}] * 3;
 
 srd = getsrd[3];
 
+regionsInGenerations = {srd};
+
 centersA = baseRegion.scalingMatrixA;
 srds = Map[
     translatedRegion[srd, #]&,
@@ -71,65 +128,44 @@ cubeRegion = Cube[6];
 Volume[unionSrds]/Volume[srd]
 Volume[RegionDifference[cubeRegion, unionSrds]]
 
-
-(* 
-alt:
-{{0, 0, 0}, {-5, 1, 1}, {-3, -3, -3}, {-1, -1, 5}, {-1, 5, -1}, {1, -5, 1}, {1, 1, -5}, {3, 3, 3}, {5, -1, -1}, {-4,
- -4, 2}, {-4, 2, -4}, {-2, 4, 4}, {2, -4, -4}, {4, -2, 4}, {4, 4, -2}, {-8, -2, -2}, {-6, 0, 6}, {-6, 6, 0}, {-2, -8,
- -2}, {-2, -2, -8}, {0, -6, 6}, {0, 6, -6}, {2, 2, 8}, {2, 8, 2}, {6, -6, 0}, {6, 0, -6}, {8, 2, 2}}
-
- *)
-
-
-centerNamesList = {
-    {1, 1, 1}, {1, 1, 2}, {1, 2, 1}, {1, 2, 2},
-    {2, 1, 1}, {2, 1, 2}, {2, 2, 1}, {2, 2, 2}
-};
-
-(* 
-centerNamesList = {
-    {1, 1, 1, 1}, {1, 1, 1, 2}, {1, 1, 2, 1}, {1, 1, 2, 2},
-    {1, 2, 1, 1}, {1, 2, 1, 2}, {1, 2, 2, 1}, {1, 2, 2, 2},
-    {2, 1, 1, 1}, {2, 1, 1, 2}, {2, 1, 2, 1}, {2, 1, 2, 2},
-    {2, 2, 1, 1}, {2, 2, 1, 2}, {2, 2, 2, 1}, {2, 2, 2, 2}
-};
- *)
-
-For[nameIndex = 1, nameIndex <= Length[centerNamesList], nameIndex++,
-    centerNames = centerNamesList[[nameIndex]];
-    Print[];
-    Print[centerNames];
-    centerSequence = {};
-    pointsi = baseRegion;
-    centers = baseRegion;
-
-    For[i=1, i<=Length[centerNames], i++,
-        centers = centers.
-            If[centerNames[[i]] == 1,
-                scalingMatrixA,
-                scalingMatrixB
-            ];
-
-        points2 = {};
-        For[centerIndex = 1, centerIndex <= Length[centers], centerIndex++,
-            points2 = Join[points2, offset[pointsi, centers[[centerIndex]]]];
-        ];
-
-        If[Length[points2] == Length[Union[points2]] && Length[points2] == 27^(i+1),
-            Print["no overlap"],
-    
-            Print["overlapping"];
-            Print[Length[points2]];
-            Print[Length[Union[points2]]];
-            Print[27^(i+1)];
-        ];
-
-        pointsi = points2;
-    ];
-
-    If[Length[Complement[baseLattice, pointsi]] == 0,
-        Print["no gap"],
-        Print["there is gap or the generated points do not cover all baseLattice. The number of missing points are:"];
-        Print[Length[Complement[baseLattice, pointsi]]];
-    ];
+(* Gen 2 *)
+centersA2 = baseRegion.scalingMatrixA.scalingMatrixA;
+srds2 = Map[
+    translatedRegion[unionSrds, #]&,
+    centersA2
 ];
+
+unionSrds2 = srds2[[1]];
+For[i = 1, i <= Length[srds2], i++,
+    Print[ToString[i] <> " " <> ToString[Volume[RegionIntersection[unionSrds, srds2[[i]]]]]];
+    unionSrds2 = RegionUnion[unionSrds2, srds2[[i]]];
+];
+
+Volume[unionSrds2]/Volume[srd]
+Volume[unionSrds2]/Volume[unionSrds]
+Volume[RegionDifference[Cube[12], unionSrds2]]
+
+
+(* Gen 3 *)
+centersA3 = baseRegion.scalingMatrixA.scalingMatrixA.scalingMatrixA;
+srds3 = Map[
+    translatedRegion[unionSrds2, #]&,
+    centersA3
+];
+
+unionSrds3 = srds3[[1]];
+For[i = 1, i <= Length[srds3], i++,
+    Print[ToString[i] <> " " <> ToString[Volume[RegionIntersection[unionSrds2, srds3[[i]]]]]];
+    unionSrds3 = RegionUnion[unionSrds3, srds3[[i]]];
+];
+
+Volume[unionSrds3]/Volume[srd]
+Volume[unionSrds3]/Volume[unionSrds]
+Volume[unionSrds3]/Volume[unionSrds2]
+
+Volume[RegionDifference[Cube[18], unionSrds3]]
+
+(* graph = Graphics3D[srd]; *)
+(* graph = Graphics3D[unionSrds]; *)
+(* graph = Graphics3D[unionSrds2]; *)
+(* graph = Graphics3D[unionSrds3]; *)

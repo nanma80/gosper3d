@@ -60,6 +60,8 @@ centerNamesList = {
 };
  *)
 
+(* centerNamesList = {{1, 1}}; *)
+
 For[nameIndex = 1, nameIndex <= Length[centerNamesList], nameIndex++,
     centerNames = centerNamesList[[nameIndex]];
     Print[];
@@ -98,3 +100,7 @@ For[nameIndex = 1, nameIndex <= Length[centerNamesList], nameIndex++,
         Print[Length[Complement[baseLattice, pointsi]]];
     ];
 ];
+
+
+Select[pointsi, Mod[ #[[1]], 2] == 0 &]//Length                                                        
+Select[pointsi, Mod[ #[[1]], 2] == 1 &]//Length 
