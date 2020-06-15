@@ -1,7 +1,7 @@
 #!/usr/bin/env wolframscript
 
 skipBaseRegionGeneration = True;
-altMode = True; (* altMode not working well *)
+altMode = False; (* altMode not working well. The regions intersect *)
 
 imageFolder = "output";
 imageSize = 150 * {4, 3};
