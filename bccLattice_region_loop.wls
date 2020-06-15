@@ -2,15 +2,15 @@
 
 skipBaseRegionGeneration = True;
 altMode = False;
-generationLimit = 2;
+generationLimit = 1;
 
+dataFolder = "data";
 imageFolder = "output";
 imageSize = 150 * {4, 3};
 exportToPov = True;
 
 Needs["POVRayRender`"];
 ConfigurePOVRayRender["POVRayPath" -> "C:\\Program Files\\POV-Ray\\v3.7\\bin\\pvengine64.exe"];
-
 
 normalizedInnerProd[u_, v_] := u.v/Norm[u]/Norm[v];
 getLattice[vectors_, limit_] := Flatten[
@@ -92,16 +92,16 @@ scalingMatrixA = IdentityMatrix[3] * 3;
 scalingMatrixB = RotationMatrix[Pi/3, {1, 1, 1}] * 3;
 
 srd = getsrd[3];
-regionsInGenerations = {srd};
+regionsByGeneration = {srd};
 centers = baseRegion;
-centersInGenerations = {};
+centersByGeneration = {};
 
 For[generationIndex = 1, generationIndex <= generationLimit, generationIndex++,
     Print["generationIndex"];
     Print[generationIndex];
     centers = centers.If[altMode, scalingMatrixB, scalingMatrixA];
-    AppendTo[centersInGenerations, centers];
-    currentRegion = regionsInGenerations[[generationIndex]];
+    AppendTo[centersByGeneration, centers];
+    currentRegion = regionsByGeneration[[generationIndex]];
 
     srds = Map[
         translatedRegion[currentRegion, #]&,
@@ -115,7 +115,17 @@ For[generationIndex = 1, generationIndex <= generationLimit, generationIndex++,
         unionSrds//Volume
     ];
     
-    AppendTo[regionsInGenerations, unionSrds];
+    AppendTo[regionsByGeneration, unionSrds];
 ];
 
-plotRegion[regionsInGenerations[[1]], "srd0.png", Blue];
+dataFileName = FileNameJoin[{dataFolder, "wl", "bcc_27a_regions.wl"}];
+outputData = <|
+    "regionsByGeneration" -> regionsByGeneration,
+    "centersByGeneration" -> centersByGeneration
+|>;
+
+If[FileExistsQ[dataFileName], DeleteFile[dataFileName]];
+Save[dataFileName, outputData];
+Print["Saved cells to " <> dataFileName];
+
+(* plotRegion[regionsByGeneration[[1]], "srd0.png", Blue]; *)
