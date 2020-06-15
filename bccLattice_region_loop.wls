@@ -2,7 +2,7 @@
 
 skipBaseRegionGeneration = True;
 altMode = False;
-generationLimit = 1;
+generationLimit = 2;
 
 imageFolder = "output";
 imageSize = 150 * {4, 3};
@@ -51,7 +51,7 @@ plotRegion[region_, fileName_, color_] := Module[
 
     range = Max[Norm/@vertices] * 0.75;
     lighting = {{"Point", White, {1, -1, 1} * range}};
-    thickness = range * 0.01;
+    thickness = range * 0.003;
 
     graph = Graphics3D[
             {
@@ -72,7 +72,7 @@ plotRegion[region_, fileName_, color_] := Module[
             Lighting -> lighting
         ];
 
-    outputFileName = FileNameJoin[{outputFolder, outputFileName}];
+    outputFileName = FileNameJoin[{imageFolder, outputFileName}];
     cropCommand = "mogrify -crop " <> IntegerString[imageSize[[2]]] <> "x" <> IntegerString[imageSize[[2]]] <> "+" <> IntegerString[(imageSize[[1]]-imageSize[[2]])/2] <> "+0 " <> outputFileName;
 
     If[exportToPov,
@@ -94,11 +94,13 @@ scalingMatrixB = RotationMatrix[Pi/3, {1, 1, 1}] * 3;
 srd = getsrd[3];
 regionsInGenerations = {srd};
 centers = baseRegion;
+centersInGenerations = {};
 
-For[generationIndex = 1, generationIndex <= generationLimit, generationLimit++,
+For[generationIndex = 1, generationIndex <= generationLimit, generationIndex++,
     Print["generationIndex"];
     Print[generationIndex];
-    centers = centers.If[altMode, scalingMatrixA, scalingMatrixB];
+    centers = centers.If[altMode, scalingMatrixB, scalingMatrixA];
+    AppendTo[centersInGenerations, centers];
     currentRegion = regionsInGenerations[[generationIndex]];
 
     srds = Map[
@@ -116,16 +118,4 @@ For[generationIndex = 1, generationIndex <= generationLimit, generationLimit++,
     AppendTo[regionsInGenerations, unionSrds];
 ];
 
-
-
-
-Volume[unionSrds3]/Volume[srd]
-Volume[unionSrds3]/Volume[unionSrds]
-Volume[unionSrds3]/Volume[unionSrds2]
-
-Volume[RegionDifference[Cube[18], unionSrds3]]
-
-(* graph = Graphics3D[srd]; *)
-(* graph = Graphics3D[unionSrds]; *)
-(* graph = Graphics3D[unionSrds2]; *)
-(* graph = Graphics3D[unionSrds3]; *)
+plotRegion[regionsInGenerations[[1]], "srd0.png", Blue];
