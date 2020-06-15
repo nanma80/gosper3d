@@ -2,7 +2,9 @@
 
 skipBaseRegionGeneration = True;
 altMode = False;
-generationLimit = 1;
+generationLimit = 2;
+saveData = False;
+plotImages = True;
 
 dataFolder = "data";
 imageFolder = "output";
@@ -11,6 +13,8 @@ exportToPov = True;
 
 Needs["POVRayRender`"];
 ConfigurePOVRayRender["POVRayPath" -> "C:\\Program Files\\POV-Ray\\v3.7\\bin\\pvengine64.exe"];
+
+colors = {Blue, Red, Yellow, Green};
 
 normalizedInnerProd[u_, v_] := u.v/Norm[u]/Norm[v];
 getLattice[vectors_, limit_] := Flatten[
@@ -96,6 +100,12 @@ regionsByGeneration = {srd};
 centers = baseRegion;
 centersByGeneration = {};
 
+If[plotImages,
+        plotRegion[regionsByGeneration[[1]],
+        "srd" <> IntegerString[0] <> ".png", 
+        colors[[1]]];
+    ];
+
 For[generationIndex = 1, generationIndex <= generationLimit, generationIndex++,
     Print["generationIndex"];
     Print[generationIndex];
@@ -116,16 +126,25 @@ For[generationIndex = 1, generationIndex <= generationLimit, generationIndex++,
     ];
     
     AppendTo[regionsByGeneration, unionSrds];
+
+    If[plotImages,
+        plotRegion[regionsByGeneration[[generationIndex + 1]], 
+        "srd" <> IntegerString[generationIndex] <> ".png", 
+        colors[[generationIndex + 1]]];
+    ];
 ];
 
-dataFileName = FileNameJoin[{dataFolder, "wl", "bcc_27a_regions.wl"}];
-outputData = <|
-    "regionsByGeneration" -> regionsByGeneration,
-    "centersByGeneration" -> centersByGeneration
-|>;
+If[saveData,
+    dataFileName = FileNameJoin[{dataFolder, "wl", "bcc_27a_regions.wl"}];
+    outputData = <|
+        "regionsByGeneration" -> regionsByGeneration,
+        "centersByGeneration" -> centersByGeneration
+    |>;
 
-If[FileExistsQ[dataFileName], DeleteFile[dataFileName]];
-Save[dataFileName, outputData];
-Print["Saved cells to " <> dataFileName];
+    If[FileExistsQ[dataFileName], DeleteFile[dataFileName]];
+    Save[dataFileName, outputData];
+    Print["Saved cells to " <> dataFileName];
+];
+
 
 (* plotRegion[regionsByGeneration[[1]], "srd0.png", Blue]; *)
