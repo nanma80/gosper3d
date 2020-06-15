@@ -1,7 +1,8 @@
 #!/usr/bin/env wolframscript
 
 skipBaseRegionGeneration = True;
-altMode = True; (* altMode not working well *)
+altMode = False;
+generationLimit = 1;
 
 imageFolder = "output";
 imageSize = 150 * {4, 3};
@@ -38,11 +39,10 @@ getsrd[r_] := Module[
 translatedRegion[region_, offset_] := TransformedRegion[region, (# + offset)&];
 
 plotRegion[region_, fileName_, color_] := Module[
-    {polyhedron, outputFileName, vertices, faceIndices, faces, edges, range, lighting
-        , thickness, graph, cropCommand},
+    {},
 
     polyhedron = region;
-    outputFileName = If[altMode, "alt_", ""] <> fileName;
+    outputFileName = fileName;
 
     vertices = polyhedron[[1]];
     faceIndices = polyhedron[[2]];
@@ -50,7 +50,7 @@ plotRegion[region_, fileName_, color_] := Module[
     edges = Flatten[Map[getEdgesFromFace, faces], 1];
 
     range = Max[Norm/@vertices] * 0.75;
-    lighting = {{"Point", White, {1, -1, 1} * range * 4}};
+    lighting = {{"Point", White, {1, -1, 1} * range}};
     thickness = range * 0.01;
 
     graph = Graphics3D[
@@ -72,7 +72,7 @@ plotRegion[region_, fileName_, color_] := Module[
             Lighting -> lighting
         ];
 
-    outputFileName = FileNameJoin[{imageFolder, outputFileName}];
+    outputFileName = FileNameJoin[{outputFolder, outputFileName}];
     cropCommand = "mogrify -crop " <> IntegerString[imageSize[[2]]] <> "x" <> IntegerString[imageSize[[2]]] <> "+" <> IntegerString[(imageSize[[1]]-imageSize[[2]])/2] <> "+0 " <> outputFileName;
 
     If[exportToPov,
@@ -85,95 +85,45 @@ plotRegion[region_, fileName_, color_] := Module[
 ];
 
 origin = {0, 0, 0};
-axis = {1, 1, 1};
-
-baseVectors = {
-    {1, 1, 1},
-    {1, 1, -1},
-    {1, -1, 1}
-};
-
-limit = 6;
-
-baseLattice = getLattice[baseVectors, limit];
-
-newVectors = If[altMode, 
-    {{-5, 1, 1}, {1, -5, 1}, {1, 1, -5}},
-    3 * baseVectors
-];
-
-newLattice = getLattice[newVectors, limit];
 
 baseRegion = {{-2, 0, -2}, {0, -2, -2}, {0, 0, -2}, {0, 2, -2}, {2, 0, -2}, {-1, -1, -1}, {-1, 1, -1}, {1, -1, -1}, {1, 1, -1}, {-2, -2, 0}, {-2, 0, 0}, {-2, 2, 0}, {0, -2, 0}, {0, 0, 0}, {0, 2, 0}, {2, -2, 0}, {2, 0, 0}, {2, 2, 0}, {-1, -1, 1}, {-1, 1, 1}, {1, -1, 1}, {1, 1, 1}, {-2, 0, 2}, {0, -2, 2}, {0, 0, 2}, {0, 2, 2}, {2, 0, 2}};
 
 scalingMatrixA = IdentityMatrix[3] * 3;
 scalingMatrixB = RotationMatrix[Pi/3, {1, 1, 1}] * 3;
-scalingMatrix = If[altMode, scalingMatrixB, scalingMatrixA];
 
 srd = getsrd[3];
-
-plotRegion[srd, "srd0.png", Blue];
-
 regionsInGenerations = {srd};
+centers = baseRegion;
 
-centersA = baseRegion.scalingMatrix;
-srds = Map[
-    translatedRegion[srd, #]&,
-    centersA
+For[generationIndex = 1, generationIndex <= generationLimit, generationLimit++,
+    Print["generationIndex"];
+    Print[generationIndex];
+    centers = centers.If[altMode, scalingMatrixA, scalingMatrixB];
+    currentRegion = regionsInGenerations[[generationIndex]];
+
+    srds = Map[
+        translatedRegion[currentRegion, #]&,
+        centers
+    ];
+
+    unionSrds = srds[[1]];
+    For[i = 1, i <= Length[srds], i++,
+        Print[ToString[i] <> " " <> ToString[Volume[RegionIntersection[currentRegion, srds[[i]]]]]];
+        unionSrds = RegionUnion[unionSrds, srds[[i]]];
+        unionSrds//Volume
+    ];
+    
+    AppendTo[regionsInGenerations, unionSrds];
 ];
 
-unionSrds = srds[[1]];
-For[i = 1, i <= Length[srds], i++,
-    Print[ToString[i] <> " " <> ToString[Volume[RegionIntersection[srd, srds[[i]]]]]];
-    unionSrds = RegionUnion[unionSrds, srds[[i]]];
-];
 
-cubeRegion = Cube[6];
-Volume[unionSrds]/Volume[srd]
-Volume[RegionDifference[cubeRegion, unionSrds]]
 
-plotRegion[unionSrds, "srd1.png", Red];
 
-(* Gen 2 *)
-centersA2 = baseRegion.scalingMatrix.scalingMatrix;
-srds2 = Map[
-    translatedRegion[unionSrds, #]&,
-    centersA2
-];
-
-unionSrds2 = srds2[[1]];
-For[i = 1, i <= Length[srds2], i++,
-    Print[ToString[i] <> " " <> ToString[Volume[RegionIntersection[unionSrds, srds2[[i]]]]]];
-    unionSrds2 = RegionUnion[unionSrds2, srds2[[i]]];
-];
-
-Volume[unionSrds2]/Volume[srd]
-Volume[unionSrds2]/Volume[unionSrds]
-Volume[RegionDifference[Cube[12], unionSrds2]]
-
-plotRegion[unionSrds2, "srd2.png", Yellow];
-
-(* Gen 3 *)
-centersA3 = baseRegion.scalingMatrix.scalingMatrix.scalingMatrix;
-srds3 = Map[
-    translatedRegion[unionSrds2, #]&,
-    centersA3
-];
-
-unionSrds3 = srds3[[1]];
-For[i = 1, i <= Length[srds3], i++,
-    Print[ToString[i] <> " " <> ToString[Volume[RegionIntersection[unionSrds2, srds3[[i]]]]]];
-    unionSrds3 = RegionUnion[unionSrds3, srds3[[i]]];
-];
-(* 
 Volume[unionSrds3]/Volume[srd]
 Volume[unionSrds3]/Volume[unionSrds]
 Volume[unionSrds3]/Volume[unionSrds2]
 
 Volume[RegionDifference[Cube[18], unionSrds3]]
- *)
-plotRegion[unionSrds3, "srd3.png", Green];
-
 
 (* graph = Graphics3D[srd]; *)
 (* graph = Graphics3D[unionSrds]; *)
