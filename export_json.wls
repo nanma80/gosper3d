@@ -2,7 +2,7 @@
 
 getPolyhedronData[polyhedron_] := <|
     "vertices" -> polyhedron[[1]],
-    "faceIndices" -> polyhedron[[2]]
+    "faceIndices" -> polyhedron[[2]] - 1
 |>;
 
 shape = "bcc_27a_regions";
