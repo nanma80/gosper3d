@@ -1,5 +1,7 @@
 #!/usr/bin/env wolframscript
 
+useOffset = True;
+
 epsilon = 0.000001;
 
 normalizedInnerProd[u_, v_] := u.v/Norm[u]/Norm[v];
@@ -17,7 +19,7 @@ baseVectors = {
     {1, 1, 0}
 };
 
-limit = 4;
+limit = 3;
 
 baseLattice = getLattice[baseVectors, limit];
 
@@ -62,16 +64,17 @@ For[i = 1, i <= Length[allCandidates], i++,
     ];
 ];
 
-
-(* offset = {-1, -1, -1}; *)
-offset = {0, 0, 0};
-
+offset = If[useOffset, -1/2 * Total[baseVectors], {0, 0, 0}];
 baseLattice = Map[# + offset &, baseLattice];
 
 For[iBase = 1, iBase<=Length[centerBaseCandidates], iBase++,
+    Print[{iBase, Length[centerBaseCandidates]}];
+
     newVectors = centerBaseCandidates[[iBase]];
 
     newLattice = getLattice[newVectors, limit];
+    newOffset = If[useOffset, -1/2 * Total[newVectors], {0, 0, 0}];
+    (* newLattice = Map[# + newOffset &, newLattice]; *)
 
     baseRegion = {};
     ambiguousRegion = {};
@@ -90,7 +93,7 @@ For[iBase = 1, iBase<=Length[centerBaseCandidates], iBase++,
     ];
 
     If[Length[ambiguousRegion] == 0,
-        Print[];
+        Print["Found"];
         Print[newVectors];
         Print[{iBase, Length[baseRegion], Length[ambiguousRegion]}];
     ];
