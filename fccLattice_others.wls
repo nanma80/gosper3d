@@ -64,7 +64,9 @@ For[i = 1, i <= Length[allCandidates], i++,
     ];
 ];
 
-offset = If[useOffset, -1/2 * Total[baseVectors], {0, 0, 0}];
+(* offset = If[useOffset, -1/2 * Total[baseVectors], {0, 0, 0}]; *)
+offset = If[useOffset, {0.013, 0.0244, 0.0174}, {0, 0, 0}];
+
 baseLattice = Map[# + offset &, baseLattice];
 
 For[iBase = 1, iBase<=Length[centerBaseCandidates], iBase++,
@@ -92,10 +94,13 @@ For[iBase = 1, iBase<=Length[centerBaseCandidates], iBase++,
         ];
     ];
 
+    (* Print[{iBase, Length[baseRegion], Length[ambiguousRegion]}]; *)
+
     If[Length[ambiguousRegion] == 0,
         Print["Found"];
         Print[newVectors];
         Print[{iBase, Length[baseRegion], Length[ambiguousRegion]}];
+        Print[];
     ];
 ];
 
