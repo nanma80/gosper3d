@@ -2,7 +2,7 @@
 
 useOffset = True;
 
-epsilon = 0.000001;
+epsilon = 0.00000001;
 
 normalizedInnerProd[u_, v_] := u.v/Norm[u]/Norm[v];
 getLattice[vectors_, limit_] := Flatten[
@@ -19,7 +19,7 @@ baseVectors = {
     {1, 1, 0}
 };
 
-limit = 3;
+limit = 5;
 
 baseLattice = getLattice[baseVectors, limit];
 
@@ -30,6 +30,7 @@ Select[baseLattice,
 allCandidates = Select[baseLattice, Norm[#]>0&];
 
 randomDirection = {Pi, E, 1};
+randomOffset = {1, Pi, E} * 0.001;
 
 centerBaseCandidates = {};
 
@@ -65,9 +66,9 @@ For[i = 1, i <= Length[allCandidates], i++,
 ];
 
 (* offset = If[useOffset, -1/2 * Total[baseVectors], {0, 0, 0}]; *)
-offset = If[useOffset, {0.013, 0.0244, 0.0174}, {0, 0, 0}];
-
-baseLattice = Map[# + offset &, baseLattice];
+(* offset = If[useOffset, randomOffset, {0, 0, 0}]; *)
+(* baseLattice = Map[# + offset &, baseLattice]; *)
+goodBaseRegions = {};
 
 For[iBase = 1, iBase<=Length[centerBaseCandidates], iBase++,
     Print[{iBase, Length[centerBaseCandidates]}];
@@ -75,8 +76,8 @@ For[iBase = 1, iBase<=Length[centerBaseCandidates], iBase++,
     newVectors = centerBaseCandidates[[iBase]];
 
     newLattice = getLattice[newVectors, limit];
-    newOffset = If[useOffset, -1/2 * Total[newVectors], {0, 0, 0}];
-    (* newLattice = Map[# + newOffset &, newLattice]; *)
+    newOffset = If[useOffset, randomOffset, {0, 0, 0}];
+    newLattice = Map[# + newOffset &, newLattice];
 
     baseRegion = {};
     ambiguousRegion = {};
@@ -84,8 +85,8 @@ For[iBase = 1, iBase<=Length[centerBaseCandidates], iBase++,
     For[i=1, i<=Length[baseLattice], i++,
         baseLatticePoint = baseLattice[[i]];
         minDistance = Min[Map[Norm[baseLatticePoint - #]&, newLattice]];
-        originDistance = Norm[baseLatticePoint - origin];
-        If[originDistance == minDistance,
+        originDistance = Norm[baseLatticePoint - (origin + newOffset)];
+        If[Abs[Norm[originDistance - minDistance]] < epsilon,
             closestCenters = Select[newLattice, Norm[# - baseLatticePoint] == minDistance&];
             If[Length[closestCenters] == 1,
                 AppendTo[baseRegion, baseLatticePoint],
@@ -96,13 +97,24 @@ For[iBase = 1, iBase<=Length[centerBaseCandidates], iBase++,
 
     (* Print[{iBase, Length[baseRegion], Length[ambiguousRegion]}]; *)
 
-    If[Length[ambiguousRegion] == 0,
+    If[Length[ambiguousRegion] == 0 && Length[baseRegion] > 1,
         Print["Found"];
         Print[newVectors];
-        Print[{iBase, Length[baseRegion], Length[ambiguousRegion]}];
+        Print[{iBase, Length[baseRegion], Length[ambiguousRegion], Mean[baseRegion]}];
         Print[];
+        AppendTo[goodBaseRegions, baseRegion];
     ];
 ];
+
+Print["Number of good base regions:"];
+Print[Length[goodBaseRegions]];
+
+dataFolder = "data";
+outputFileName = FileNameJoin[{dataFolder, "json", "fcc_good_base_regions.json"}];
+
+If[FileExistsQ[outputFileName], DeleteFile[outputFileName] ];
+Export[outputFileName, goodBaseRegions, "RawJSON", Compact -> True];
+Print["saved json data to " <> outputFileName];
 
 
 (* Print[baseRegion];
