@@ -109,11 +109,15 @@ For[iBase = 1, iBase<=Length[centerBaseCandidates], iBase++,
 Print["Number of good base regions:"];
 Print[Length[goodBaseRegions]];
 
+uniqueGoodBaseRegions = Union[goodBaseRegions];
+Print["Number of unique good base regions:"];
+Print[Length[uniqueGoodBaseRegions]];
+
 dataFolder = "data";
 outputFileName = FileNameJoin[{dataFolder, "json", "fcc_good_base_regions.json"}];
 
 If[FileExistsQ[outputFileName], DeleteFile[outputFileName] ];
-Export[outputFileName, goodBaseRegions, "RawJSON", Compact -> True];
+Export[outputFileName, uniqueGoodBaseRegions, "RawJSON", Compact -> True];
 Print["saved json data to " <> outputFileName];
 
 
