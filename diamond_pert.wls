@@ -1,6 +1,6 @@
 #!/usr/bin/env wolframscript
 
-useOffset = True;
+useOffset = False;
 
 epsilon = 0.00000001;
 
@@ -10,7 +10,7 @@ getLattice[vectors_, limit_] := Flatten[
         {i, j, k}.vectors, {i, -limit, limit}, {j, -limit, limit}, {k, -limit, limit}
     ], 2];
 getDiamondLattice[vectors_, limit_] := Module[
-    {},
+    {baseLattice, offsetLattice},
     baseLattice = getLattice[vectors, limit];
     offsetLattice = Map[# + Total[vectors]/4 &, baseLattice];
     Union[baseLattice, offsetLattice]
