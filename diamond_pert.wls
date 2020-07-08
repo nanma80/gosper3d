@@ -1,6 +1,7 @@
 #!/usr/bin/env wolframscript
 
 useOffset = False;
+limit = 6;
 
 epsilon = 0.00000001;
 
@@ -24,8 +25,6 @@ baseVectors = {
     {1, 0, 1},
     {1, 1, 0}
 } * 2;
-
-limit = 3;
 
 baseLattice = getDiamondLattice[baseVectors, limit];
 
