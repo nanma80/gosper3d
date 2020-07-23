@@ -21,9 +21,18 @@ get3dCubicLattice[limit_] := Flatten[Table[
 
 get3dZeroSum[limit_] := Select[get3dCubicLattice[limit], Total[#]==0&];
 
-limit = 3;
+getClusterCenter[point_, size_]:= Round[point / size] * size;
+
+limit = 4;
+clusterSize = 3;
 
 points = get3dZeroSum[limit];
+
+groups = Tally[points, getClusterCenter[#1, clusterSize] == getClusterCenter[#2, clusterSize]&];
+Print[Map[#[[2]]&, groups]//Tally];
+(* cluster size 3: 7, 1 *)
+(* cluster size 5: 19, 3 *)
+(* cluster size 7: 37, 6 *)
 
 range = limit * 1.2;
 

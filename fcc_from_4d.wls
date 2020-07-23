@@ -11,9 +11,20 @@ get4dCubicLattice[limit_] := Flatten[Table[
 ], 3];
 
 get4dZeroSum[limit_] := Select[get4dCubicLattice[limit], Total[#]==0&];
+getClusterCenter[point_, size_]:= Round[point / size] * size;
 
 allPoints3d = {};
 projectionMatrix = Orthogonalize[{{1, 1, 1, 1}, {1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}}][[{2, 3, 4}]];
+
+limit = 4;
+clusterSize = 3;
+
+points = get4dZeroSum[limit];
+groups = Tally[points, getClusterCenter[#1, clusterSize] == getClusterCenter[#2, clusterSize]&];
+Print[Map[#[[2]]&, groups]//Tally];
+(* cluster size 3: 19, 4 *)
+(* cluster size 5: 85, 20 *)
+(* cluster size 7: 231, 56 *)
 
 For[limit = 1, limit <= 4, limit++,
     points = get4dZeroSum[limit];
