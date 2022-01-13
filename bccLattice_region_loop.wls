@@ -142,7 +142,7 @@ For[generationIndex = 1, generationIndex <= generationLimit, generationIndex++,
         (* unionSrds//Volume *)
     ];
 
-    Print[{ Volume[currentRegion] * Length[srds], Volume[unionSrds]} ];
+    Print[{ Volume[currentRegion] * Length[srds], Volume[unionSrds], Volume[currentRegion] * Length[srds] - Volume[unionSrds]} ];
     AppendTo[regionsByGeneration, unionSrds];
     testSize = 13/9 * 3^(generationIndex);
     testVolume = testSize^3;
