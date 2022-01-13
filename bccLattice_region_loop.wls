@@ -2,7 +2,7 @@
 
 skipBaseRegionGeneration = True;
 altMode = False;
-generationLimit = 2;
+generationLimit = 3;
 saveData = False;
 plotImages = True;
 
@@ -10,6 +10,7 @@ dataFolder = "data";
 imageFolder = "output";
 imageSize = 150 * {4, 3};
 exportToPov = True;
+epsilon = 0.00000001;
 
 Needs["POVRayRender`"];
 ConfigurePOVRayRender["POVRayPath" -> "C:\\Program Files\\POV-Ray\\v3.7\\bin\\pvengine64.exe"];
@@ -41,6 +42,7 @@ getsrd[r_] := Module[
 ];
 
 translatedRegion[region_, offset_] := TransformedRegion[region, (# + offset)&];
+scaledRegion[region_, scale_] := TransformedRegion[region, (# * scale)&];
 
 plotRegion[region_, fileName_, color_] := Module[
     {},
@@ -86,6 +88,7 @@ plotRegion[region_, fileName_, color_] := Module[
         ,
         Export[outputFileName, graph];
     ];
+    Print["saved image to " <> outputFileName];
 ];
 
 origin = {0, 0, 0};
@@ -118,18 +121,42 @@ For[generationIndex = 1, generationIndex <= generationLimit, generationIndex++,
         centers
     ];
 
+    Print["Unioning this number of regions:"];
+    Print[Length[srds]];
+
+(*     For[i = 1, i <= Length[srds], i++,
+        For[j = 1, j <= i - 1, j++,
+            intVolume = Volume[RegionIntersection[srds[[i]], srds[[j]] ]]//N;
+            If[intVolume > epsilon,
+                Print[ToString[i] <> " " <> ToString[j] <> " " <> ToString[intVolume]]
+            ];
+        ];
+    ];
+
+    Print["Checked intersection"];
+ *)
     unionSrds = srds[[1]];
     For[i = 1, i <= Length[srds], i++,
-        Print[ToString[i] <> " " <> ToString[Volume[RegionIntersection[currentRegion, srds[[i]]]]]];
+        (* Print[ToString[i] <> " " <> ToString[Volume[RegionIntersection[currentRegion, srds[[i]]]]]]; *)
         unionSrds = RegionUnion[unionSrds, srds[[i]]];
-        unionSrds//Volume
+        (* unionSrds//Volume *)
     ];
-    
+
+    Print[{ Volume[currentRegion] * Length[srds], Volume[unionSrds]} ];
     AppendTo[regionsByGeneration, unionSrds];
+    testSize = 13/9 * 3^(generationIndex);
+    testVolume = testSize^3;
+    intVolume = Volume[RegionIntersection[Cuboid[{0,0,0}, {testSize, testSize, testSize}], regionsByGeneration[[generationIndex + 1]]]];
+    Print[{
+        testVolume//N,
+        intVolume//N,
+        testVolume - intVolume//N
+    }];
 
     If[plotImages,
-        plotRegion[regionsByGeneration[[generationIndex + 1]], 
-        "srd" <> IntegerString[generationIndex] <> ".png", 
+        scaled = scaledRegion[regionsByGeneration[[generationIndex + 1]], 1/3^(generationIndex)];
+        plotRegion[scaled,
+            "srd" <> IntegerString[generationIndex] <> ".png", 
         colors[[generationIndex + 1]]];
     ];
 ];
