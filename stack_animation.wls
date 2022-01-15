@@ -2,11 +2,12 @@
 
 exportToPov = True;
 
-imageSize = {4, 3} * 600 / 3;
-movingFrameCount = 7;
+imageSize = {4, 3} * 480 / 3;
+movingFrameCount = 4;
+(* movingFrameCount = 51; *)
 
 argv = Rest @ $ScriptCommandLine;
-nGenerations = If[Length[argv] >= 1, ToExpression[argv[[1]]], 1];
+nGenerations = If[Length[argv] >= 1, ToExpression[argv[[1]]], 2];
 
 shape = "srd";
 shapeWithParams = shape <> "_" <> IntegerString[nGenerations];
@@ -141,7 +142,6 @@ exportFrame[region_, centers_, explosionFactor_, scaleFactor_, viewRangeFactor_,
     outputFileName = "stacking_frame_" <> IntegerString[frameIndex, 10, 4] <> ".png";
     outputFileName = FileNameJoin[{outputFolder, outputFileName}];
 
-
     cropCommand = "mogrify -crop " <> IntegerString[imageSize[[2]]] <> "x" <> IntegerString[imageSize[[2]]] <> "+" <> IntegerString[(imageSize[[1]]-imageSize[[2]])/2] <> "+0 " <> outputFileName;
 
     If[exportToPov,
@@ -152,7 +152,6 @@ exportFrame[region_, centers_, explosionFactor_, scaleFactor_, viewRangeFactor_,
       Export[outputFileName, graph];
     ];
     Print["Saved an image to " <> outputFileName];
-
 ];
 
 exportAnimation[] := Module[
@@ -180,7 +179,7 @@ exportAnimation[] := Module[
 
     stayingFrameCount = Floor[movingFrameCount/6];
     shrinkingFrameCount = Floor[movingFrameCount/2];
-    totalFrameCount = nGenerations*(Length[explosionFactors] + stayingFrameCount + shrinkingFrameCount);
+    totalFrameCount = nGenerations*(Length[explosionFactors] + stayingFrameCount + shrinkingFrameCount) - shrinkingFrameCount;
 
     frameCount = 1;
     For[genIndex = 1, genIndex <= nGenerations, genIndex++,
@@ -197,25 +196,30 @@ exportAnimation[] := Module[
         ];
 
         For[stayingIndex = 1, stayingIndex <= stayingFrameCount, stayingIndex++,
-            Print["Frame #" <> IntegerString[frameCount] <> "/" <> IntegerString[totalFrameCount] <> " Gen " <> ToString[genIndex] <> " staying " <> ToString[stayingIndex] <> " " <> outputFolderName];
+            Print["Frame #" <> IntegerString[frameCount] <> "/" <> IntegerString[totalFrameCount] <> " Gen " <> ToString[genIndex] <> " staying " <> ToString[stayingIndex] <> "/" <> ToString[stayingFrameCount] <> " " <> outputFolderName];
 
             exportFrame[regions, centers, 1, scaleFactor, scaleFactor, 1.0, frameCount, outputFolderName];
             frameCount ++;
         ];
 
-        
-        For[shrinkingIndex = 1, shrinkingIndex <= shrinkingFrameCount, shrinkingIndex++,
-            Print["Frame #" <> IntegerString[frameCount] <> "/" <> IntegerString[totalFrameCount] <> " Gen " <> ToString[genIndex] <> " shrinking " <> ToString[shrinkingIndex] <> "/" <> ToString[shrinkingFrameCount] <> " " <> outputFolderName];
-
-            If[genIndex != nGenerations,
-                exportFrame[regions, centers, 1, scaleFactor*(1/shrinkingFrameCount)^(shrinkingIndex/shrinkingFrameCount), scaleFactor, (shrinkingFrameCount-shrinkingIndex)/shrinkingFrameCount, frameCount, outputFolderName],
-                (* not shrinking at the end *)
-                exportFrame[regions, centers, 1, scaleFactor, scaleFactor, 1.0, frameCount, outputFolderName]
-                ];
-            frameCount ++;
-        ]
+        If[genIndex != nGenerations,
+            For[shrinkingIndex = 1, shrinkingIndex <= shrinkingFrameCount, shrinkingIndex++,
+                Print["Frame #" <> IntegerString[frameCount] <> "/" <> IntegerString[totalFrameCount] <> " Gen " <> ToString[genIndex] <> " shrinking " <> ToString[shrinkingIndex] <> "/" <> ToString[shrinkingFrameCount] <> " " <> outputFolderName];
+                exportFrame[regions, centers, 1, scaleFactor*(1/3)^(shrinkingIndex/shrinkingFrameCount), scaleFactor, (shrinkingFrameCount-shrinkingIndex)/shrinkingFrameCount, frameCount, outputFolderName]
+                frameCount ++;
+            ];
+        ];
     ];
     
+    outputFileName = FileNameJoin[{imageFolder, outputFolderName, "stacking_frame_" <> IntegerString[totalFrameCount, 10, 4] <> ".png"}];
+    
+    For[finalIndex = 1, finalIndex <= movingFrameCount, finalIndex++,
+        newFileName = FileNameJoin[{imageFolder, outputFolderName, "stacking_frame_" <> IntegerString[frameCount, 10, 4] <> ".png"}];
+        copyCommand = "copy .\\" <> outputFileName <> " .\\" <> newFileName;
+        Run[copyCommand];
+        frameCount ++;
+    ];
+
     delay = If[totalFrameCount >= 50, 3, Floor[500/totalFrameCount]];
 
     gifCommand = "magick convert -quiet +repage -alpha remove -loop 0 -delay " <> IntegerString[delay] <> " -dispose 2 " <> outputFolder <> "\\stacking_frame*.png " <> gifFolder <> "\\" <> gifFileName <> ".gif";
@@ -260,12 +264,4 @@ For[genIndex = 1, genIndex <= 3, genIndex++,
     exportFrame[regions, centers, 1.0, scaleFactor*(1/3)^(2/3.), scaleFactor, 0.33, frameCount, "test"]; frameCount ++;
     exportFrame[regions, centers, 1.0, scaleFactor*1/3, scaleFactor, 0.0, frameCount, "test"]; frameCount ++;
 ]
- *)
-
-
-(* Print[shape]; *)
-(* faces = generateFaces[p, q]; *)
-
-
-(* exportFrame[1.0, 0, 1, "test"]; *)
-(* exportFrame[1.2, 0, 2, "test"]; *)
+*)
