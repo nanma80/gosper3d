@@ -2,9 +2,10 @@
 
 exportToPov = True;
 
-imageSize = {4, 3} * 480 / 3;
-movingFrameCount = 4;
-(* movingFrameCount = 51; *)
+imageSize = {4, 3} * 720 / 3;
+(* movingFrameCount = 4; *)
+movingFrameCount = 100;
+animating = True;
 
 argv = Rest @ $ScriptCommandLine;
 nGenerations = If[Length[argv] >= 1, ToExpression[argv[[1]]], 2];
@@ -246,7 +247,16 @@ centersByGeneration = data["centersByGeneration"];
 (* add a 4th level of centers. There are a 4th level of regionsByGeneration *)
 AppendTo[centersByGeneration, centersByGeneration[[Length[centersByGeneration]]] * 3];
 
-exportAnimation[];
+If[animating, 
+    exportAnimation[],
+    
+    genIndex = nGenerations;
+    regions = regionsByGeneration[[genIndex]];
+    centers = centersByGeneration[[genIndex]];
+    scaleFactor = (1/3)^(genIndex - 1);
+    exportFrame[regions, centers, 1.0, scaleFactor, scaleFactor, 1.0, nGenerations, "lastFrame"];
+];
+
 
 (* frameCount = 1;
 For[genIndex = 1, genIndex <= 3, genIndex++,
